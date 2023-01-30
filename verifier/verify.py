@@ -61,7 +61,6 @@ def verify_procedure(root, hardware, reagents):
                 for each_attrib in step.attrib:
                     if each_attrib not in ['vessel', 'stir_speed', 'purpose']:
                         raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
-
             elif step.tag == 'Stir':
                 if 'vessel' not in step.attrib:
                     raise Exception(f"You must have 'vessel' when doing 'Stir'")
@@ -70,8 +69,174 @@ def verify_procedure(root, hardware, reagents):
                 for each_attrib in step.attrib:
                     if each_attrib not in ['vessel', 'time', 'stir_speed', 'continue_stirring', 'purpose']:
                         raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
-
-# ONE MORE CHANGE
+            elif step.tag == 'StopStir':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'StopStir'")
+                for each_attrib in step.attrib:
+                    if each_attrib != 'vessel':
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'HeatChill':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'HeatChill'")
+                if 'temp' not in step.attrib:
+                    raise Exception(f"You must have 'temp' when doing 'HeatChill'")
+                if 'time' not in step.attrib:
+                    raise Exception(f"You must have 'time' when doing 'HeatChill'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'time', 'temp', 'stir', 'stir_speed', 'purpose']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'HeatChillToTemp':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'HeatChillToTemp'")
+                if 'temp' not in step.attrib:
+                    raise Exception(f"You must have 'temp' when doing 'HeatChillToTemp'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'active', 'temp', 'continue_heatchill', 'stir', 'stir_speed', 'purpose']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'StartHeatChill':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'StartHeatChill'")
+                if 'temp' not in step.attrib:
+                    raise Exception(f"You must have 'temp' when doing 'StartHeatChill'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'temp', 'purpose']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'StopHeatChill':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'StopHeatChill'")
+                for each_attrib in step.attrib:
+                    if each_attrib != 'vessel':
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'EvacuateAndRefill':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'EvacuateAndRefill'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'gas', 'repeats']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'Purge':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'Purge'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'gas', 'time', 'pressure', 'flow_rate']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'StartPurge':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'StartPurge'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'gas', 'pressure', 'flow_rate']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'StopPurge':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'StopPurge'")
+                for each_attrib in step.attrib:
+                    if each_attrib != 'vessel':
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'Filter':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'Filter'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'filtrate_vessel', 'stir', 'stir_speed', 'temp', 'continue_heatchill', 'volume']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'FilterThrough':
+                if 'from_vessel' not in step.attrib:
+                    raise Exception(f"You must have 'from_vessel' when doing 'FilterThrough'")
+                if 'to_vessel' not in step.attrib:
+                    raise Exception(f"You must have 'to_vessel' when doing 'FilterThrough'")
+                if 'through' not in step.attrib:
+                    raise Exception(f"You must have 'through' when doing 'FilterThrough'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['from_vessel', 'to_vessel', 'through', 'eluting_solvent', 'eluting_volume', 'eluting_repeats', 'residence_time']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'WashSolid':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'WashSolid'")
+                if 'solvent' not in step.attrib:
+                    raise Exception(f"You must have 'solvent' when doing 'WashSolid'")
+                if 'volume' not in step.attrib:
+                    raise Exception(f"You must have 'volume' when doing 'WashSolid'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'solvent', 'volume', 'filtrate_vessel', 'temp', 'stir', 'stir_speed', 'time', 'repeats']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'Wait':
+                if 'time' not in step.attrib:
+                    raise Exception(f"You must have 'time' when doing 'Wait'")
+                for each_attrib in step.attrib:
+                    if each_attrib != 'time':
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")     
+            elif step.tag == 'Repeat':
+                if 'repeats' not in step.attrib:
+                    raise Exception(f"You must have 'repeats' when doing 'Repeat'")
+                if 'children' not in step.attrib:
+                    raise Exception(f"You must have 'children' when doing 'Repeat'")
+                if 'loop_variables' not in step.attrib:
+                    raise Exception(f"You must have 'loop_variables' when doing 'Repeat'")
+                if 'iterative' not in step.attrib:
+                    raise Exception(f"You must have 'iterative' when doing 'Repeat'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['repeats', 'children', 'loop_variables', 'iterative']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'CleanVessel':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'CleanVessel'")
+                if 'solvent' not in step.attrib:
+                    raise Exception(f"You must have 'solvent' when doing 'CleanVessel'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'solvent', 'volume', 'temp', 'repeats']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'Crystallize':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'Crystallize'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'ramp_time', 'ramp_temp']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'Dissolve':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'Dissolve'")
+                if 'solvent' not in step.attrib:
+                    raise Exception(f"You must have 'solvent' when doing 'Dissolve'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'solvent', 'volume', 'amount', 'temp', 'time', 'stir_speed']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'Dry':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'Dry'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'time', 'pressure', 'temp', 'continue_heatchill']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'Evaporate':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'Evaporate'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'time', 'pressure', 'temp', 'stir_speed']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'Irradiate':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'Irradiate'")
+                if 'time' not in step.attrib:
+                    raise Exception(f"You must have 'time' when doing 'Irradiate'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'time', 'wavelength', 'color', 'temp', 'stir', 'stir_speed', 'cooling_power']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'Irradiate':
+                if 'vessel' not in step.attrib:
+                    raise Exception(f"You must have 'vessel' when doing 'Irradiate'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['vessel', 'time', 'temp', 'stir_speed','reagent', 'volume', 'amount', 'add_time']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'ResetHandling':
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['solvent', 'volume', 'repeats']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
+            elif step.tag == 'RunColumn':
+                if 'from_vessel' not in step.attrib:
+                    raise Exception(f"You must have 'from_vessel' when doing 'RunColumn'")
+                if 'to_vessel' not in step.attrib:
+                    raise Exception(f"You must have 'to_vessel' when doing 'RunColumn'")
+                if 'column' not in step.attrib:
+                    raise Exception(f"You must have 'column' when doing 'RunColumn'")
+                for each_attrib in step.attrib:
+                    if each_attrib not in ['from_vessel', 'to_vessel', 'column']:
+                        raise Exception(f"The attribute {each_attrib} in the {step.tag} procedure is not allowed")
 
 
 
@@ -104,23 +269,3 @@ if __name__ == "__main__":
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-Questions:
-1. difference between XDL and XML
-2. difference between print() and f"" in Expection()
-'''
