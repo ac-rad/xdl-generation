@@ -10,7 +10,8 @@
   </Reagents>
   
   <Procedure>
-    <Add vessel="beaker" reagent="water" amount="10 mL"/>
+    <Add vessel1="beaker" reagent="water" amount="10 mL"/>
     <Mix vessel="beaker" duration="10 s"/>
+    <Add vessel="beaker" reagent="water" amount="10 mL"/>
   </Procedure>
 </Synthesis>
