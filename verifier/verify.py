@@ -79,7 +79,6 @@ def parse_reagents(root):
             reagent_list.append(reagent.attrib['name'])
     return reagent_list
 
-
 def verify_procedure(root, hardware, reagents):
     printed_error_list = []
     for procedure in root.iter('Procedure'):
@@ -89,11 +88,6 @@ def verify_procedure(root, hardware, reagents):
             action = step.tag
             if action not in mandatory_properties:
                 errors.append(f"There is no {action} action in XDL")
-                # continue
-            # if action not in mandatory_properties and action not in optional_properties:
-            #     errors.append(f"This {action} action is not an allowed action.")
-            #     continue
-            # Check whether mandatory field is written
             else: 
                 for prop in mandatory_properties[action]:
                     if prop not in step.attrib:
@@ -114,14 +108,10 @@ def verify_procedure(root, hardware, reagents):
                 # print errors if exists
             
             if errors:
-                # print("Has error")
                 print("Error was found in", str(ET.tostring(step, encoding='unicode', method='xml').strip()))
                 for error in errors:
                     print("-", error)
                     printed_error_list.append(error)
-            # elif errors == []:
-            #     print("NO error")
-
 
 def verify_synthesis(root):
     hardware = parse_hardware(root)
@@ -144,11 +134,3 @@ if __name__ == "__main__":
     f = open(args.filename, "r")
     xdl = f.read()
     verify_xdl(xdl)
-
-
-
-
-
-    # unit test
-
-    # has an option of checking whether the reagent and hardware in the allowed list provideds
