@@ -80,39 +80,43 @@ def parse_reagents(root):
     return reagent_list
 
 
+def check_step(step, hardware, reagents):
+    errors = []
+    # Check whether action is valid
+    action = step.tag
+    if action not in mandatory_properties:
+        errors.append(f"There is no {action} action in XDL")
+        return errors
+
+    # Check whether mandatory field is written
+    for prop in mandatory_properties[action]:
+        if prop not in step.attrib:
+            errors.append(
+                f"You must have '{prop}' property when doing '{step.tag}'")
+    for attr in step.attrib:
+        if attr not in optional_properties[action]:
+            errors.append(
+                f"The {attr} property in the {action} procedure is not allowed")
+    # Check vessels are defined in Hardware
+    for attr in ['vessel', 'from_vessel', 'to_vessel']:
+        if attr in step.attrib and step.attrib[attr] not in hardware:
+            errors.append(
+                f"{step.attrib[attr]} is not defined in Hardware")
+    # Check reagents are defined in Reagents
+    if 'reagent' in step.attrib and step.attrib['reagent'] not in reagents:
+        errors(f"{step.attrib['reagent']} is not defined in Reagents")
+    return errors
+
 def verify_procedure(root, hardware, reagents):
     for procedure in root.iter('Procedure'):
         for step in procedure:
-            errors = []
-            # Check whether action is valid
-            action = step.tag
-            if action not in mandatory_properties:
-                errors.append(f"There is no {action} action in XDL")
-                continue
-            # Check whether mandatory field is written
-            for prop in mandatory_properties[action]:
-                if prop not in step.attrib:
-                    errors.append(
-                        f"You must have '{prop}' property when doing '{step.tag}'")
-            for attr in step.attrib:
-                if attr not in optional_properties[action]:
-                    errors.append(
-                        f"The {attr} property in the {action} procedure is not allowed")
-            # Check vessels are defined in Hardware
-            for attr in ['vessel', 'from_vessel', 'to_vessel']:
-                if attr in step.attrib and step.attrib[attr] not in hardware:
-                    errors.append(
-                        f"{step.attrib[attr]} is not defined in Hardware")
-            # Check reagents are defined in Reagents
-            if 'reagent' in step.attrib and step.attrib['reagent'] not in reagents:
-                errors(f"{step.attrib['reagent']} is not defined in Reagents")
             # print errors if exists
+            errors = check_step(step, hardware, reagents)
             if errors:
                 print("Error was found in", str(ET.tostring(
                     step, encoding='unicode', method='xml').strip()))
                 for error in errors:
                     print("-", error)
-
 
 def verify_synthesis(root):
     hardware = parse_hardware(root)
