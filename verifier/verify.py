@@ -79,57 +79,61 @@ def parse_reagents(root):
             reagent_list.append(reagent.attrib['name'])
     return reagent_list
 
-
-def check_step(step, hardware, reagents):
-    errors = []
-    # Check whether action is valid
-    action = step.tag
-    if action not in mandatory_properties:
-        errors.append(f"There is no {action} action in XDL")
-        return errors
-
-    # Check whether mandatory field is written
-    for prop in mandatory_properties[action]:
-        if prop not in step.attrib:
-            errors.append(
-                f"You must have '{prop}' property when doing '{step.tag}'")
-    for attr in step.attrib:
-        if attr not in optional_properties[action]:
-            errors.append(
-                f"The {attr} property in the {action} procedure is not allowed")
-    # Check vessels are defined in Hardware
-    for attr in ['vessel', 'from_vessel', 'to_vessel']:
-        if attr in step.attrib and step.attrib[attr] not in hardware:
-            errors.append(
-                f"{step.attrib[attr]} is not defined in Hardware")
-    # Check reagents are defined in Reagents
-    if 'reagent' in step.attrib and step.attrib['reagent'] not in reagents:
-        errors(f"{step.attrib['reagent']} is not defined in Reagents")
-    return errors
-
 def verify_procedure(root, hardware, reagents):
+    error_list = []
     for procedure in root.iter('Procedure'):
         for step in procedure:
-            # print errors if exists
-            errors = check_step(step, hardware, reagents)
+            errors = []
+            # Check whether action is valid
+            action = step.tag
+            if action not in mandatory_properties:
+                errors.append(f"There is no {action} action in XDL")
+            else: 
+                for prop in mandatory_properties[action]:
+                    if prop not in step.attrib:
+                        errors.append(
+                            f"You must have '{prop}' property when doing '{step.tag}'")
+                for attr in step.attrib:
+                    if attr not in optional_properties[action]:
+                        errors.append(
+                            f"The {attr} property in the {action} procedure is not allowed")
+                # Check vessels are defined in Hardware
+                for attr in ['vessel', 'from_vessel', 'to_vessel']:
+                    if attr in step.attrib and step.attrib[attr] not in hardware:
+                        errors.append(
+                            f"{step.attrib[attr]} is not defined in Hardware")
+                # Check reagents are defined in Reagents
+                if 'reagent' in step.attrib and step.attrib['reagent'] not in reagents:
+                    reagent_name = step.attrib["reagent"]
+                    errors.append(f"{reagent_name} is not defined in Reagents")
+
             if errors:
-                print("Error was found in", str(ET.tostring(
-                    step, encoding='unicode', method='xml').strip()))
-                for error in errors:
-                    print("-", error)
+                step_str = ET.tostring(step, encoding='unicode', method='xml').strip()
+                error_list.append({"step": step_str, "errors": errors})
+    return error_list
+
 
 def verify_synthesis(root):
     hardware = parse_hardware(root)
     reagents = parse_reagents(root)
-    verify_procedure(root, hardware, reagents)
+    return verify_procedure(root, hardware, reagents)
 
 
 def verify_xdl(xdl):
+    """
+    Verify XDL and return errors
+    :param xdl: The XDL string to verify
+    :return: Returns an empty list if the input is valid. 
+             Returns a string if the input cannot be parsed as XML.
+             Returns a list of dictionary if it has errors. Each element has two fields.
+               "step": The string of the line which contains error.
+               "errors": The error messages for that line.
+    """
     try:
         root = ET.fromstring(xdl)
     except:
-        print("Input XDL cannot be parsed as XML")
-    verify_synthesis(root)
+        return "Input XDL cannot be parsed as XML"
+    return verify_synthesis(root)
 
 
 if __name__ == "__main__":
@@ -138,4 +142,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     f = open(args.filename, "r")
     xdl = f.read()
-    verify_xdl(xdl)
+    error_list = verify_xdl(xdl)
+    print(error_list)
