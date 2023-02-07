@@ -24,19 +24,35 @@ def prompt(instructions, description, max_tokens):
 def generate_xdl(file_path):
     instructions  = open(file_path, "r").read()
     XDL = open("XDL_description.txt", "r").read()
-    original_instructions = instructions
+    prev_instr = instructions
     correct_syntax = False
-    for _ in range(100):
+    print(file_path)
+    print("---------------------------")
+    print(instructions)
+    for _ in range(3):
+        print("iter instructions")
+        print(instructions)
         gpt3_output = prompt(instructions, XDL, 2000)
-        ## TO DO: input into checker
+        #gpt3_output = instructions
+        print("****")
         print(gpt3_output)
+        print("----")
+        ## TO DO: input into checker
+#        print(gpt3_output)
         compile_correct = verify.verify_xdl(gpt3_output)
-        if compile_correct:
+        print(compile_correct)
+        print("~~~~")
+        if len(compile_correct) == 0:
             correct_syntax = True
             break
         else:
-            error_message = "This XDL was not correct. These were the errors {}. Please fix the errors.".format(errors)
-            instructions += original_instructions + " " + error_message
+            print("I HAVE A COMPILE ERROR", compile_correct)
+            error_message = "This XDL was not correct. These were the errors {}. Please fix the errors.".format(compile_correct)
+            instructions = prev_instr + " " + error_message
+            print("new instructions)")
+            print(instructions)
+            print("!!!!!")
+
     if correct_syntax:
         return correct_syntax, gpt3_output
     else:
@@ -54,12 +70,13 @@ def main():
     num_correct=0
     total_num=0
     for rootdir, subdirs, filenames in os.walk(args.input_dir):
-        for filename in filenames:
+        for ii, filename in enumerate(filenames):
             correct_syntax, xdl = generate_xdl(os.path.join(rootdir, filename))
             with open(os.path.join(output_dir, filename), "w") as f:
                 f.write(xdl)
             total_num += 1
             num_correct += correct_syntax
+            if ii == 10: break
     print("Total num correct:: {}".format(num_correct))
     print("Total num:: {}".format(total_num))
 
