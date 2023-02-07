@@ -66,10 +66,18 @@ optional_properties = {
 
 def parse_hardware(root):
     hardware_list = []
+    tag_lst = list(root.iter('Hardware'))
+    tags = []
+    error=""
+    for item in tag_lst:
+        tags += [elem.tag for elem in item.iter()]
+    for item in tags:
+        if item not in ["Hardware", "Component"]:
+            error = "Hardware should only contain the following tags: Component"
     for hardware in root.iter('Hardware'):
         for component in hardware.iter('Component'):
             hardware_list.append(component.attrib['id'])
-    return hardware_list
+    return hardware_list, error
 
 
 def parse_reagents(root):
@@ -114,7 +122,9 @@ def verify_procedure(root, hardware, reagents):
 
 
 def verify_synthesis(root):
-    hardware = parse_hardware(root)
+    hardware, errors = parse_hardware(root)
+    if errors != "":
+        return [{"step": "Hardware definition", "errors": errors}]
     reagents = parse_reagents(root)
     return verify_procedure(root, hardware, reagents)
 
@@ -136,7 +146,7 @@ def verify_xdl(xdl):
     return verify_synthesis(root)
 
 
-if __name__ == "__main__":
+if False: #if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("filename")
     args = parser.parse_args()
