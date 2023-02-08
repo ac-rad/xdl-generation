@@ -3,6 +3,7 @@ import json
 import openai
 import sys
 import argparse
+from tqdm import tqdm
 wd = os. getcwd()
 root_dir = '/'.join(wd.split("/"))
 sys.path.append(root_dir)
@@ -27,21 +28,16 @@ def generate_xdl(file_path):
     XDL = open("XDL_description.txt", "r").read()
     prev_instr = instructions
     correct_syntax = False
-    print(file_path)
     errors={}
     for step in range(10):
-        print("iter instructions")
-        print(instructions)
         gpt3_output = prompt(instructions, XDL, 2000)
         gpt3_output = gpt3_output[gpt3_output.index("<XDL>"):gpt3_output.index("</XDL>")+6]
-        print(gpt3_output)
         compile_correct = verify.verify_xdl(gpt3_output)
         errors[step] = {'errors': compile_correct, 'instructions': instructions, 'gpt3_output': gpt3_output}
         if len(compile_correct) == 0:
             correct_syntax = True
             break
         else:
-            print("I HAVE A COMPILE ERROR", compile_correct)
             error_message = "This XDL was not correct. These were the errors {}. Please fix the errors.".format(compile_correct)
             instructions = prev_instr + " " + error_message
 
@@ -62,7 +58,7 @@ def main():
     num_correct=0
     total_num=0
     for rootdir, subdirs, filenames in os.walk(args.input_dir):
-        for ii, filename in enumerate(filenames):
+        for ii, filename in tqdm(enumerate(sorted(filenames))):
             if ".txt" not in filename: 
                 continue
             if ii == 1: continue
