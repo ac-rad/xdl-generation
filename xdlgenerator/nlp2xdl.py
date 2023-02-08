@@ -1,4 +1,5 @@
 import os
+import json
 import openai
 import sys
 import argparse
@@ -27,21 +28,15 @@ def generate_xdl(file_path):
     prev_instr = instructions
     correct_syntax = False
     print(file_path)
-    print("---------------------------")
-    print(instructions)
-    for _ in range(3):
+    errors={}
+    for step in range(10):
         print("iter instructions")
         print(instructions)
         gpt3_output = prompt(instructions, XDL, 2000)
-        #gpt3_output = instructions
-        print("****")
+        gpt3_output = gpt3_output[gpt3_output.index("<XDL>"):gpt3_output.index("</XDL>")+6]
         print(gpt3_output)
-        print("----")
-        ## TO DO: input into checker
-#        print(gpt3_output)
         compile_correct = verify.verify_xdl(gpt3_output)
-        print(compile_correct)
-        print("~~~~")
+        errors[step] = {'errors': compile_correct, 'instructions': instructions, 'gpt3_output': gpt3_output}
         if len(compile_correct) == 0:
             correct_syntax = True
             break
@@ -49,14 +44,11 @@ def generate_xdl(file_path):
             print("I HAVE A COMPILE ERROR", compile_correct)
             error_message = "This XDL was not correct. These were the errors {}. Please fix the errors.".format(compile_correct)
             instructions = prev_instr + " " + error_message
-            print("new instructions)")
-            print(instructions)
-            print("!!!!!")
 
     if correct_syntax:
-        return correct_syntax, gpt3_output
+        return correct_syntax, gpt3_output, errors
     else:
-        return correct_syntax, "The correct XDL could not be generated."
+        return correct_syntax, "The correct XDL could not be generated.", errors
 
 def main():
     parser = argparse.ArgumentParser()
@@ -71,12 +63,16 @@ def main():
     total_num=0
     for rootdir, subdirs, filenames in os.walk(args.input_dir):
         for ii, filename in enumerate(filenames):
-            correct_syntax, xdl = generate_xdl(os.path.join(rootdir, filename))
+            if ".txt" not in filename: 
+                continue
+            if ii == 1: continue
+            correct_syntax, xdl, errors = generate_xdl(os.path.join(rootdir, filename))
             with open(os.path.join(output_dir, filename), "w") as f:
                 f.write(xdl)
+            with open(os.path.join(output_dir, filename.replace(".txt", "_errors.json")), 'w') as f:
+                json.dump(errors, f)
             total_num += 1
             num_correct += correct_syntax
-            if ii == 10: break
     print("Total num correct:: {}".format(num_correct))
     print("Total num:: {}".format(total_num))
 
