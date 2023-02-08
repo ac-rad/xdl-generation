@@ -1,0 +1,19 @@
+Preparation of methyl 3(S)-hydroxy-4-oxopentanoate-4-ethylenedithioacetal (2): 
+
+Fresh baker's yeast (404 g) was suspended in a stirred solution of sucrose (424 g) in tap water (1009 ml). The mixture was allowed to stand at 21 °C during 1hr (gas evolution). Methyl 3,4-dioxopentanoate-4-ethylenedithioacetal (1) (10.00 g, 45.39 mmol) was added and stirring was continued  for 48 hours. The mixture was then saturated with NaCl and filtered through celite. The solid was washed with ethyl acetate (2 x 500 ml) and the aqueous filtrate was extracted with diethyl ether (4 x 500 ml). The combined organic phases were dried (MgSO4), filtered, evaporated under vacuum and the crude product was chromatographed on a silica gel column (eluents: petroleum ether 40/60 : dichloromethane from 8:2 to 1:1) to afford, in order of elution, starting material (1) (4.20 g, 42 % recovery) and product (2) (4.82 g 48 %). The product was obtained as a clear colourless oil and the ee determined as described at the end of this section.
+
+Preparation of 3(S)-hydroxy-4-oxopentanamide-4-ethylenedithioacetal (4): 
+
+To a solution of methyl 3(S)-hydroxy-4-oxopentanoate-4-ethylenedithioacetal (2) (1.268 g, 5.70 mmol, e.e. 95 %) in anhydrous methanol (40 ml) at -60 °C was passed ammonia to give a total volume of 55 ml and the mixture was closed and allowed to stand at room temperature for 3 days (caution, see author’s comments). After this time the vessel was opened and the ammonia was allowed to slowly disperse. The mixture was then evaporated to dryness. The residue was purified by chromatography on a silica gel column (eluents: petroleum ether 40/60 : ethyl acetate from 1:1 to 0:1) to afford  (4) (1.135 g, 96 %) as a solid (Rf = 0.36 (ethyl acetate)). Enantiomerically pure amide was obtained after two crystallizations  (petroleum ether 40/60 : ethyl acetate) m.p. 118.5-119 °C; alfa 25D = -41.1° (c 1.0 ethanol). 
+
+Conversion of 4 into 3:
+
+To recrystallised amide (4) (3.738 g, 18.03 mmol) dissolved in absolute ethanol (75 ml) was added acetyl chloride (5.1 ml, 72.1 mmol) and heated at reflux for 18 h under a N2 atmosphere. After allowing the reaction mixture to cool to room temperature the mixture was then neutralised by addition of NaHCO3, and the ethanol then evaporated. To the residue was added diethyl ether (50 ml), water (50 ml) and the aqueous phase was extracted with diethyl ether (3 x 50 ml). The combined organic phases were dried (MgSO4), filtered, evaporated to dryness, and chromatographed on a silica gel column (eluents: petroleum ether 40/60 : dichloromethane from 1:1 to 0:1) to afford (3) (3.397 g, 80 %) as a clear colourless oil, alfa25D = -35.2 (c 1.2, CHCl3), e.e. > 97 % determined as described below. Note: none of the other enantiomer was observed by 1H NMR.
+
+Determination of ee: 
+
+The ee of  the transesterification product, ethyl 3(S)-hydroxy-4-oxopentanoate-4-ethylenedithioacetal (3) was determined by 1H NMR(300 MHz, 0.035 M in CDCl3) on basis of signals for  (R) and (S) of C-5 Me (respectively 2.38 and 2.63 ppm) and OCH2CH3 (respectively 1.41 and 1.29 ppm) in the presence of 0.64:1 molar ratio Eu(tfc)3/substrate. 
+
+Preparation of (3) by transesterification of (2):
+
+To (0.062 g, 0.28 mmol) of (2) in absolute ethanol (1 ml) and acetyl chloride (0.04 ml) were heated at reflux for 3 hr, usual work-up and silica gel column (eluents: petroleum ether 40/60 : dichloromethane 1:1)) to give the product (3) (0.055g, 83%).

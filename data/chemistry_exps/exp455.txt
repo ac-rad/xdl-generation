@@ -1,0 +1,74 @@
+Diphenylsulfide (0.09 ml, 0.10 g, 0.54 mmol) and AlCl3 (0.10 g, 0.75 mmol) were dissolved in 2-tert-butylphenol (15.35 ml, 15.02 g, 0.10 mol) in a three neck round bottom flask, under nitrogen flow. The flask outlet was fitted with a sat. NaOH(aq) scrubber. The solution was cooled in an ice bath, and sulfuryl chloride (7.97 ml, 13.4 g, 0.10 mol) was added dropwise over ca 40 min. The solution became yellow, then red, and was stirred at ambient temperature overnight. The solution was concentrated and purified by vacuum distillation using a 12 cm Vigreux column. Fraction results summarised below.
+
+
+
+
+Fraction
+
+
+Stillhead temperature
+
+
+Heating   block temperature
+
+
+r.f    (hexane / diethyl ether 20:1)
+
+
+Assignment by 1H NMR
+
+
+
+
+1
+
+
+40-46
+
+
+60-110
+
+
+0.41
+
+
+ortho
+
+
+
+
+2
+
+
+50-80
+
+
+120-170
+
+
+0.12/0.41
+
+
+mixture
+
+
+
+
+3
+
+
+80-90
+
+
+180-190
+
+
+0.12
+
+
+para
+
+
+
+
+All products were clear oils. Fraction 2 was further purified by column chromatography (hexane/diethyl ether 20:1). Overall yield of ortho isomer = 7.49 g, 40 %; para isomer = 9.40 g, 51 %.

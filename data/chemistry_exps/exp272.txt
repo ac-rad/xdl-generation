@@ -1,0 +1,7 @@
+In order to add an embedded object to your article please follow the steps below:
+Use "Insert/embed media" button on the toolbar (top row of buttons)
+The dialog will pop up 
+Paste embed code into the box provided. This will automatically fill Type, File/URL and dimensions. Alternatively you can set all of them manually.
+If you want embed to open up in a separate window, you can check the corresponding box and/or provide the caption for the link that will be shown in the body of your article
+Press "Insert" button
+Note: only YouTube, JoVE and ChemSpider embeds are currently supported though the list can be extended.
