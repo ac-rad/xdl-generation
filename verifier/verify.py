@@ -68,16 +68,18 @@ def parse_hardware(root):
     hardware_list = []
     tag_lst = list(root.iter('Hardware'))
     tags = []
+    strs=[]
     error=""
     for item in tag_lst:
         tags += [elem.tag for elem in item.iter()]
+        strs += [ET.tostring(item, encoding='unicode', method='xml').strip()]
     for item in tags:
         if item not in ["Hardware", "Component"]:
             error = "Hardware should only contain the following tags: Component"
     for hardware in root.iter('Hardware'):
         for component in hardware.iter('Component'):
             hardware_list.append(component.attrib['id'])
-    return hardware_list, error
+    return hardware_list, (error, strs)
 
 
 def parse_reagents(root):
@@ -87,8 +89,7 @@ def parse_reagents(root):
             reagent_list.append(reagent.attrib['name'])
     return reagent_list
 
-def verify_procedure(root, hardware, reagents):
-    error_list = []
+def verify_procedure(root, hardware, reagents, error_list):
     for procedure in root.iter('Procedure'):
         for step in procedure:
             errors = []
@@ -96,7 +97,7 @@ def verify_procedure(root, hardware, reagents):
             action = step.tag
             if action not in mandatory_properties:
                 errors.append(f"There is no {action} action in XDL")
-            else: 
+            else:
                 for prop in mandatory_properties[action]:
                     if prop not in step.attrib:
                         errors.append(
@@ -122,11 +123,14 @@ def verify_procedure(root, hardware, reagents):
 
 
 def verify_synthesis(root):
-    hardware, errors = parse_hardware(root)
+    error_list = []
+    hardware, (errors, strs) = parse_hardware(root)
     if errors != "":
-        return [{"step": "Hardware definition", "errors": errors}]
+        error_list.append({"step": "Hardware definition", "errors": errors})
+        #return error_list
+        #return [{"step": "Hardware definition", "errors": errors}]
     reagents = parse_reagents(root)
-    return verify_procedure(root, hardware, reagents)
+    return verify_procedure(root, hardware, reagents, error_list)
 
 
 def verify_xdl(xdl):
@@ -144,13 +148,3 @@ def verify_xdl(xdl):
     except:
         return "Input XDL cannot be parsed as XML"
     return verify_synthesis(root)
-
-
-if False: #if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("filename")
-    args = parser.parse_args()
-    f = open(args.filename, "r")
-    xdl = f.read()
-    error_list = verify_xdl(xdl)
-    print(error_list)
