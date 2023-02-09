@@ -11,7 +11,7 @@ from verifier import verify
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 
-def prompt(instructions, description, max_tokens):
+def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n"):
     response = openai.Completion.create(
       model="text-davinci-003",
       prompt=description+"\nConvert to XDL:\n"+instructions,
@@ -29,17 +29,43 @@ def generate_xdl(file_path):
     prev_instr = instructions
     correct_syntax = False
     errors={}
-    for step in range(10):
-        gpt3_output = prompt(instructions, XDL, 2000)
+    error_list = set()
+    task="\nConvert to XDL:\n"
+    for step in range(25):
+        print(instructions)
+        gpt3_output = prompt(instructions, XDL, 1500, task)
         gpt3_output = gpt3_output[gpt3_output.index("<XDL>"):gpt3_output.index("</XDL>")+6]
+        print(gpt3_output)
         compile_correct = verify.verify_xdl(gpt3_output)
+        # error_list = set()
+        #for ii in compile_correct:
+        #    for jj in ii['errors']:
+        #        error_list.add(jj)
+        #error_list += compile_correct
         errors[step] = {'errors': compile_correct, 'instructions': instructions, 'gpt3_output': gpt3_output}
         if len(compile_correct) == 0:
             correct_syntax = True
             break
         else:
-            error_message = "This XDL was not correct. These were the errors {}. Please fix the errors.".format(compile_correct)
+            error_list = set()
+            for ii in compile_correct:
+                for jj in ii['errors']:
+                    error_list.add(jj)
+        #error_list += compile_correct
+           # error_message = "This XDL was not correct. These were the errors {}. Please fix the errors.".format(error_list, prev_instr)
+            #error_message = "This XDL was not correct. These were the errors {}. Please fix the errors:\n".format(compile_correct)
+            #error_message = "This XDL was not correct. These were the errors {}. Please fix the errors.".format(compile_correct)
+            #error_message = "These are XDL errors {}. Please fix the errors.".format(compile_correct)
+            #error_message = "This XDL was not correct. These were the errors {}. Please fix the errors.".format(compile_correct)
+            #instructions ="\nOriginal text:\n" + prev_instr + "\nXDL:\n" + gpt3_output + "\n" + error_message
+            #error_message = "This XDL was not correct. These were the errors {}. Please fix the errors.".format(compile_correct)
+            #instructions = prev_instr + " " + error_message
+            error_message = "\nThis XDL was not correct. These were the errors\n{}\nPlease fix the errors.".format("\n".join(list(error_list)))
             instructions = prev_instr + " " + error_message
+            #instructions = prev_instr + " " + error_message
+            #task = ''
+            #task = f"\nOriginal instructions:\n{prev_instr}\nFix this XDL:\n"
+            #task = "\nFix this XDL:\n"
 
     if correct_syntax:
         return correct_syntax, gpt3_output, errors
