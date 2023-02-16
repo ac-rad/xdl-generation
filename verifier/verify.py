@@ -64,7 +64,7 @@ optional_properties = {
 }
 
 
-def parse_hardware(root):
+def parse_hardware(root, error_list, available_hardware):
     hardware_list = []
     tag_lst = list(root.iter('Hardware'))
     tags = []
@@ -76,7 +76,13 @@ def parse_hardware(root):
             error = "Hardware should only contain the following tags: Component"
     for hardware in root.iter('Hardware'):
         for component in hardware.iter('Component'):
-            hardware_list.append(component.attrib['id'])
+        	if available_hardware:
+        		if component.attrib['id'] not in available_hardware:
+        			wrong_hardware = component.attrib['id']
+        			error_str = f"{wrong_hardware} is not defined in the given hardware list"
+        			step_str = ET.tostring(component, encoding='unicode', method='xml').strip()
+        			error_list.append({"hardware": step_str, "errors": error_str})     		
+	        hardware_list.append(component.attrib['id'])
     return hardware_list, error
 
 
@@ -87,8 +93,8 @@ def parse_reagents(root):
             reagent_list.append(reagent.attrib['name'])
     return reagent_list
 
-def verify_procedure(root, hardware, reagents):
-    error_list = []
+
+def verify_procedure(root, hardware, reagents, error_list):
     for procedure in root.iter('Procedure'):
         for step in procedure:
             errors = []
@@ -114,22 +120,22 @@ def verify_procedure(root, hardware, reagents):
                 if 'reagent' in step.attrib and step.attrib['reagent'] not in reagents:
                     reagent_name = step.attrib["reagent"]
                     errors.append(f"{reagent_name} is not defined in Reagents")
-
             if errors:
                 step_str = ET.tostring(step, encoding='unicode', method='xml').strip()
                 error_list.append({"step": step_str, "errors": errors})
     return error_list
 
 
-def verify_synthesis(root):
-    hardware, errors = parse_hardware(root)
-    if errors != "":
-        return [{"step": "Hardware definition", "errors": errors}]
-    reagents = parse_reagents(root)
-    return verify_procedure(root, hardware, reagents)
+def verify_synthesis(root, available_hardware):
+	error_list = []
+	hardware, errors = parse_hardware(root, error_list, available_hardware)
+	if errors != "":
+		error_list.append({"step": "Hardware definition", "errors": errors})
+	reagents = parse_reagents(root)
+	return verify_procedure(root, hardware, reagents, error_list)
 
 
-def verify_xdl(xdl):
+def verify_xdl(xdl, available_hardware = None):
     """
     Verify XDL and return errors
     :param xdl: The XDL string to verify
@@ -143,10 +149,22 @@ def verify_xdl(xdl):
         root = ET.fromstring(xdl)
     except:
         return "Input XDL cannot be parsed as XML"
-    return verify_synthesis(root)
 
+    # error_list = []
+    # if available_hardware:
+    #     hardware_list, hardware_error = parse_hardware(root)
+    #     # check whether all components in hardware listed are in the hardware list
+    #     for each_component in hardware_list:
+    #         if each_component not in available_hardware:
+    #         	error_str = f"{each_component} is not defined in the given hardware list"
+    #         	step_str = ET.tostring(each_component, encoding='unicode', method='xml').strip()
+    #             error_list.append({"hardware": step_str, "errors": error_str})
 
-if False: #if __name__ == "__main__":
+    # return verify_synthesis(root, error_list)
+    return verify_synthesis(root, available_hardware)
+
+# if False: #if __name__ == "__main__":
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("filename")
     args = parser.parse_args()
