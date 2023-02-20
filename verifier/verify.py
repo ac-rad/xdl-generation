@@ -63,6 +63,8 @@ optional_properties = {
     'RunColumn': ['from_vessel', 'to_vessel', 'column'],
 }
 
+reagent_properties = ["name", "inchi", "cas", "role", "preserve", "use_for_cleaning", "clean_with", "stir", "temp", "atmosphere", "purity"]
+
 
 def parse_hardware(root):
     hardware_list = []
@@ -82,11 +84,21 @@ def parse_hardware(root):
     return hardware_list, (error, strs)
 
 
-def parse_reagents(root):
+def parse_reagents(root, error_list):
     reagent_list = []
     for reagents in root.iter('Reagents'):
         for reagent in reagents.iter('Reagent'):
-            reagent_list.append(reagent.attrib['name'])
+            errors = []
+            if 'name' not in reagent.attrib:
+                errors.append(f"You must have 'name' property in Reagent")
+            else:
+                reagent_list.append(reagent.attrib['name'])
+            for attr in reagent.attrib:
+                if attr not in reagent_properties:
+                    errors.append(f"The {attr} property in Reagent is not allowed")
+            if errors:
+                step_str = ET.tostring(reagent, encoding='unicode', method='xml').strip()
+                error_list.append({"step": step_str, "errors": errors})
     return reagent_list
 
 def verify_procedure(root, hardware, reagents, error_list):
@@ -129,7 +141,7 @@ def verify_synthesis(root):
         error_list.append({"step": "Hardware definition", "errors": errors})
         #return error_list
         #return [{"step": "Hardware definition", "errors": errors}]
-    reagents = parse_reagents(root)
+    reagents = parse_reagents(root, error_list)
     return verify_procedure(root, hardware, reagents, error_list)
 
 

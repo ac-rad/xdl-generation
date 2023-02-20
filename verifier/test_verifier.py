@@ -53,3 +53,12 @@ def test_07():  # Multiple errors
     assert len(errors) == 2
     assert errors[0]["step"] == '<Add vesel="beaker" reagent="water" amount="10 mL" />'
     assert errors[1]["step"] == '<Add vessel="beaker" reagent="sugar" amount="10 g" />'
+
+def test_09():  # Reagent property
+    f = open("verifier/data/test09.xml", "r")
+    xdl = f.read()
+    errors = verify.verify_xdl(xdl)
+    assert isinstance(errors, list)
+    assert len(errors) == 2
+    assert errors[0]["step"] == '<Reagent name="vinegar" solid="true" />'
+    assert errors[1]["step"] == '<Reagent inchi="InChI=1S/ClH.Na/h1H;/q;+1/p-1" />'
