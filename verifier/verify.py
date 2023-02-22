@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 
 mandatory_properties = {
     'Add': ['vessel', 'reagent'],
-    'Separate': ['purpose', 'product_phase', 'from_vessel', 'separation_vessel', 'to_vesse'],
+    'Separate': ['purpose', 'product_phase', 'from_vessel', 'separation_vessel', 'to_vessel'],
     'Transfer': ['from_vessel', 'to_vessel'],
     'StartStir': ['vessel'],
     'Stir': ['vessel', 'time'],
@@ -21,7 +21,7 @@ mandatory_properties = {
     'WashSolid': ['vessel', 'solvent', 'volume'],
     'Wait': ['time'],
     'Repeat': ['repeats'],
-    'CleanVessel': ['vessel', 'reagent'],
+    'CleanVessel': ['vessel'],
     'Crystallize': ['vessel'],
     'Dissolve': ['vessel', 'solvent'],
     'Dry': ['vessel'],
@@ -75,7 +75,8 @@ def parse_hardware(root):
         strs += [ET.tostring(item, encoding='unicode', method='xml').strip()]
     for item in tags:
         if item not in ["Hardware", "Component"]:
-            error = "Hardware should only contain the following tags: Component"
+            #error = "Hardware should only contain the following tags: Component"
+            error = "The Hardware section should only contain Component tags"
     for hardware in root.iter('Hardware'):
         for component in hardware.iter('Component'):
             hardware_list.append(component.attrib['id'])
@@ -104,13 +105,15 @@ def verify_procedure(root, hardware, reagents, error_list):
                             f"You must have '{prop}' property when doing '{step.tag}'")
                 for attr in step.attrib:
                     if attr not in optional_properties[action]:
+                        allowed_actions = list(set(optional_properties[action] + mandatory_properties[action]))
                         errors.append(
-                            f"The {attr} property in the {action} procedure is not allowed")
+                                f"The {attr} property in the {action} procedure is not allowed. The allowed properties are: {', '.join(allowed_actions)}.")
                 # Check vessels are defined in Hardware
-                for attr in ['vessel', 'from_vessel', 'to_vessel']:
-                    if attr in step.attrib and step.attrib[attr] not in hardware:
-                        errors.append(
-                            f"{step.attrib[attr]} is not defined in Hardware")
+                if len(error_list) == 0 or "Hardware" not in error_list[0]["step"]:
+                    for attr in ['vessel', 'from_vessel', 'to_vessel']:
+                        if attr in step.attrib and step.attrib[attr] not in hardware:
+                            errors.append(
+                                f"{step.attrib[attr]} is not defined in Hardware")
                 # Check reagents are defined in Reagents
                 if 'reagent' in step.attrib and step.attrib['reagent'] not in reagents:
                     reagent_name = step.attrib["reagent"]
@@ -118,6 +121,7 @@ def verify_procedure(root, hardware, reagents, error_list):
 
             if errors:
                 step_str = ET.tostring(step, encoding='unicode', method='xml').strip()
+                step_str = ' '.join(step_str.split())
                 error_list.append({"step": step_str, "errors": errors})
     return error_list
 
@@ -126,7 +130,7 @@ def verify_synthesis(root):
     error_list = []
     hardware, (errors, strs) = parse_hardware(root)
     if errors != "":
-        error_list.append({"step": "Hardware definition", "errors": errors})
+        error_list.append({"step": "Hardware definition", "errors": [errors]})
         #return error_list
         #return [{"step": "Hardware definition", "errors": errors}]
     reagents = parse_reagents(root)
@@ -145,6 +149,6 @@ def verify_xdl(xdl):
     """
     try:
         root = ET.fromstring(xdl)
-    except:
-        return "Input XDL cannot be parsed as XML"
+    except Exception as e:
+        return [{"errors": ["Input XDL cannot be parsed as XML, there is {} error".format(str(e).split(":")[0])]}]
     return verify_synthesis(root)
