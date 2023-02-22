@@ -1,0 +1,2 @@
+A solution of 4,4'-diaminobibenzyl (0.94 mmol, 200 mg) in MeOH (7 mL) was treated with benzaldehyde (1.88 mmol, 0.19 mL), a solution of cyclohexyl isocyanide (1.88 mmol, 0.23 mL) in MeOH (3 mL), and chloroacetic acid (1.88 mmol, 178 mg) in the order given. The reaction mixture was stirred at room temperature for 24 hours, and then filtered. The precipitate was washed with first Et2O and then with n-hexane to remove unreacted reagents or by-products and dried to give cream coloured Ugi adduct (650 mg, 87%). m.p. 216-219°C, Rf(50%EtOAc/n-hexane): 0.50.
+ 

@@ -1,0 +1,6 @@
+An example of YouTube video (use "media" button, choose "flash", paste link to the youtube page and... voila!)    
+
+
+
+
+An example of iframe embedding:   I personally don't like this way of embedding much as it's quite dangerous. We have to have at least a list of approved web sites for this sort of external linking.
