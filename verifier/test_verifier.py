@@ -48,7 +48,6 @@ def test_07():  # Multiple errors
     f = open("verifier/data/test07.xml", "r")
     xdl = f.read()
     errors = verify.verify_xdl(xdl)
-    print(errors)
     assert isinstance(errors, list)
     assert len(errors) == 2
     assert errors[0]["step"] == '<Add vesel="beaker" reagent="water" amount="10 mL" />'
@@ -62,3 +61,13 @@ def test_09():  # Reagent property
     assert len(errors) == 2
     assert errors[0]["step"] == '<Reagent name="vinegar" solid="true" />'
     assert errors[1]["step"] == '<Reagent inchi="InChI=1S/ClH.Na/h1H;/q;+1/p-1" />'
+
+def test_08():  # using hardware that not in available_hardware list
+    f = open("verifier/data/test08.xml", "r")
+    xdl = f.read()
+    errors = verify.verify_xdl(xdl, available_hardware=['beaker'])
+    print(errors)
+    assert isinstance(errors, list)
+    assert len(errors) == 1
+    assert errors[0]["hardware"] == '<Component id="beaker2" type="beaker" />'
+
