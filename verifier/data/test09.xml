@@ -1,0 +1,19 @@
+<XDL>
+  <Synthesis>
+      <Hardware>
+          <Component id="beaker" />
+      </Hardware>
+
+      <Reagents>
+          <Reagent name="red cabbage soup" />
+          <Reagent name="vinegar" solid="true" />
+          <Reagent inchi="InChI=1S/ClH.Na/h1H;/q;+1/p-1"/>
+      </Reagents>
+
+      <Procedure>
+          <Add vessel="beaker" reagent="red cabbage soup" amount="30 g" />
+          <Add vessel="beaker" reagent="vinegar" amount="10 g" />
+          <Stir vessel="beaker" time="10 s" />
+      </Procedure>
+  </Synthesis>
+</XDL>
