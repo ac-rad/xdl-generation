@@ -80,14 +80,15 @@ def parse_hardware(root, error_list, available_hardware):
             error = "The Hardware section should only contain Component tags"
     for hardware in root.iter('Hardware'):
         for component in hardware.iter('Component'):
-        	if available_hardware:
-        		if component.attrib['id'] not in available_hardware:
-        			wrong_hardware = component.attrib['id']
-        			error_str = f"{wrong_hardware} is not defined in the given hardware list"
-        			step_str = ET.tostring(component, encoding='unicode', method='xml').strip()
-        			error_list.append({"hardware": step_str, "errors": error_str})     		
+            if available_hardware:
+                if component.attrib['id'] not in available_hardware:
+                    wrong_hardware = component.attrib['id']
+                    error_str = f"{wrong_hardware} is not defined in the given Hardware list. The allowed Hardware is: {', '.join(available_hardware)[:-2]}."
+                    step_str = ET.tostring(component, encoding='unicode', method='xml').strip()
+                    error_list.append({"step": "Hardware definition", "errors": [error_str]})
+                    #error_list.append({"hardware": step_str, "errors": error_str})
             hardware_list.append(component.attrib['id'])
-    return hardware_list, (error, strs)
+    return hardware_list, error_list, (error, strs)
 
 
 def parse_reagents(root, error_list):
@@ -126,7 +127,8 @@ def verify_procedure(root, hardware, reagents, error_list):
                         errors.append(
                                 f"The {attr} property in the {action} procedure is not allowed. The allowed properties are: {', '.join(allowed_actions)}.")
                 # Check vessels are defined in Hardware
-                if len(error_list) == 0 or "Hardware" not in error_list[0]["step"]:
+                #print(error_list)
+                if len(error_list) == 0 or "Hardware" not in error_list[0]["step"].lower():
                     for attr in ['vessel', 'from_vessel', 'to_vessel']:
                         if attr in step.attrib and step.attrib[attr] not in hardware:
                             errors.append(
@@ -145,15 +147,16 @@ def verify_procedure(root, hardware, reagents, error_list):
 
 def verify_synthesis(root, available_hardware):
     error_list = []
-    hardware, (errors, strs) = parse_hardware(root, error_list, available_hardware)
+    hardware, hardware_list_error_list, (errors, strs) = parse_hardware(root, error_list, available_hardware)
     if errors != "":
         error_list.append({"step": "Hardware definition", "errors": [errors]})
+
         #return error_list
         #return [{"step": "Hardware definition", "errors": errors}]
     reagents = parse_reagents(root, error_list)
     return verify_procedure(root, hardware, reagents, error_list)
 
-def verify_xdl(xdl, available_hardware = None):
+def verify_xdl(xdl, available_hardware=None):
     """
     Verify XDL and return errors
     :param xdl: The XDL string to verify
