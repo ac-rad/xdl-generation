@@ -1,4 +1,3 @@
-#from verifier import verify
 import argparse
 import json
 import os
@@ -42,7 +41,7 @@ def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n"):
     return response["choices"][0]["text"]
 
 
-def generate_xdl(file_path):
+def generate_xdl(file_path, available_hardware=None):
     """generate_xdl.
 
     Parameters
@@ -59,16 +58,17 @@ def generate_xdl(file_path):
     task = "\nConvert to XDL:\n"
     for step in range(10):
         print(instructions)
-        gpt3_output = prompt(instructions, XDL, 1000, task)
+        #with open("test.txt") as f:
+        #    gpt3_output = f.read()
+        try:
+            gpt3_output = prompt(instructions, XDL, 1000, task)
+        except openai.error.InvalidRequestError:
+             gpt3_output = prompt(instructions, XDL, 750, task)
+        print("gpt3 output:::")
         print(gpt3_output)
+        print("******")
         gpt3_output = gpt3_output[gpt3_output.index("<XDL>"):]
-        # gpt3_output = gpt3_output[gpt3_output.index("<XDL>"):gpt3_output.index("</XDL>")+6]
-        compile_correct = verify.verify_xdl(gpt3_output)
-        #    error_list = set()
-        # for ii in compile_correct:
-        #    for jj in ii['errors']:
-        #        error_list.add(jj)
-        # error_list += compile_correct
+        compile_correct = verify.verify_xdl(gpt3_output, available_hardware)
         errors[step] = {
             "errors": compile_correct,
             "instructions": instructions,
@@ -98,10 +98,6 @@ def generate_xdl(file_path):
                     "\n".join(list(error_list))
                 )
             instructions = prev_instr + " " + error_message
-            # instructions = prev_instr + " " + error_message
-            # task = ''
-            # task = f"\nOriginal instructions:\n{prev_instr}\nFix this XDL:\n"
-            # task = "\nFix this XDL:\n"
 
     if correct_syntax:
         return correct_syntax, gpt3_output, errors
@@ -113,27 +109,36 @@ def main():
     """main."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_dir", required=True)
+    parser.add_argument("--avail_hardware", default=None, type=str)
     args = parser.parse_args()
     if args.input_dir[-1] == "/":
         args.input_dir = args.input_dir[:-1]
     output_dir = args.input_dir + "_output"
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
+    avail_hardware=None
+    # if passed in avail hardware file, parse into list
+    if args.avail_hardware != None:
+        with open(args.avail_hardware) as f:
+            avail_hardware = f.read().split("\n")
+    print("available hardware:", avail_hardware)
     num_correct = 0
     total_num = 0
     for rootdir, subdirs, filenames in os.walk(args.input_dir):
+        filenames_sorted = sorted(filenames)
         np.random.seed(42)
-        np.random.shuffle(filenames)
-        filenames_subset = filenames[:125]
+        np.random.shuffle(filenames_sorted)
+        filenames_subset = filenames_sorted[:125]
         for ii, filename in tqdm(enumerate(sorted(filenames_subset))):
             print(filename)
             if os.path.exists(os.path.join(output_dir, filename)):
                 continue
             if ".txt" not in filename:
                 continue
-            if True:  # try:
+            if True:
+            #try:
                 correct_syntax, xdl, errors = generate_xdl(
-                    os.path.join(rootdir, filename)
+                    os.path.join(rootdir, filename), avail_hardware
                 )
                 print(filename, correct_syntax)
                 with open(os.path.join(output_dir, filename), "w") as f:
@@ -146,7 +151,8 @@ def main():
                     json.dump(errors, f)
                 total_num += 1
                 num_correct += correct_syntax
-            if False:  # except:
+            if False:
+            #except:
                 print(filename, "error")
                 continue
     print(f"Total num correct:: {num_correct}")
