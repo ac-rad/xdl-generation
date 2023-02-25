@@ -15,7 +15,7 @@ from verifier import verify
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 
-def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n"):
+def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n", constraints=""):
     """prompt.
 
     Parameters
@@ -31,7 +31,7 @@ def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n"):
     """
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt=description + "\nConvert to XDL:\n" + instructions,
+        prompt=description +constraints+ "\nConvert to XDL:\n" + instructions,
         temperature=0,
         max_tokens=max_tokens,
         top_p=1,
@@ -56,14 +56,19 @@ def generate_xdl(file_path, available_hardware=None):
     errors = {}
     #error_list = set()
     task = "\nConvert to XDL:\n"
+
+    constraints=""
+    if available_hardware!= None:
+        hardware_str = ", ".join(available_hardware)[:-2]
+        constraints = f"\nThe available Hardware is: {hardware_str}\n"
     for step in range(10):
-        print(instructions)
+        print(constraints+"\nConvert to XDL:\n" + instructions)
         #with open("test.txt") as f:
         #    gpt3_output = f.read()
         try:
-            gpt3_output = prompt(instructions, XDL, 1000, task)
+            gpt3_output = prompt(instructions, XDL, 1000, task, constraints)
         except openai.error.InvalidRequestError:
-             gpt3_output = prompt(instructions, XDL, 750, task)
+             gpt3_output = prompt(instructions, XDL, 750, task, constraints)
         print("gpt3 output:::")
         print(gpt3_output)
         print("******")
