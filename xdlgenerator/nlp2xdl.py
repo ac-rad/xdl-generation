@@ -41,7 +41,7 @@ def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n", co
     return response["choices"][0]["text"]
 
 
-def generate_xdl(file_path, available_hardware=None):
+def generate_xdl(file_path, available_hardware=None, available_reagents=None):
     """generate_xdl.
 
     Parameters
@@ -61,6 +61,9 @@ def generate_xdl(file_path, available_hardware=None):
     if available_hardware!= None:
         hardware_str = ", ".join(available_hardware)[:-2]
         constraints = f"\nThe available Hardware is: {hardware_str}\n"
+    if available_reagents!= None:
+        reagents_str = ", ".join(available_reagents)[:-2]
+        constraints += f"\nThe available Reagents are: {reagents_str}\n"
     for step in range(10):
         print(constraints+"\nConvert to XDL:\n" + instructions)
         #with open("test.txt") as f:
@@ -73,7 +76,7 @@ def generate_xdl(file_path, available_hardware=None):
         print(gpt3_output)
         print("******")
         gpt3_output = gpt3_output[gpt3_output.index("<XDL>"):]
-        compile_correct = verify.verify_xdl(gpt3_output, available_hardware)
+        compile_correct = verify.verify_xdl(gpt3_output, available_hardware, available_reagents)
         errors[step] = {
             "errors": compile_correct,
             "instructions": instructions,
@@ -115,18 +118,27 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_dir", required=True)
     parser.add_argument("--avail_hardware", default=None, type=str)
+    parser.add_argument("--avail_reagents", default=None, type=str)
     args = parser.parse_args()
     if args.input_dir[-1] == "/":
         args.input_dir = args.input_dir[:-1]
     output_dir = args.input_dir + "_output"
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    avail_hardware=None
+    available_hardware=None
     # if passed in avail hardware file, parse into list
     if args.avail_hardware != None:
         with open(args.avail_hardware) as f:
-            avail_hardware = f.read().split("\n")
-    print("available hardware:", avail_hardware)
+            available_hardware = f.read().split("\n")
+    print("available hardware:", available_hardware)
+
+    available_reagents=None
+    # if passed in avail reagents file, parse into list
+    if args.avail_reagents != None:
+        with open(args.avail_reagents) as f:
+            available_reagents= f.read().split("\n")
+    print("available reagents:", available_reagents)
+
     num_correct = 0
     total_num = 0
     for rootdir, subdirs, filenames in os.walk(args.input_dir):
@@ -143,7 +155,7 @@ def main():
             if True:
             #try:
                 correct_syntax, xdl, errors = generate_xdl(
-                    os.path.join(rootdir, filename), avail_hardware
+                    os.path.join(rootdir, filename), available_hardware, available_reagents
                 )
                 print(filename, correct_syntax)
                 with open(os.path.join(output_dir, filename), "w") as f:

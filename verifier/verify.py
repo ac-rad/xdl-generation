@@ -83,18 +83,22 @@ def parse_hardware(root, error_list, available_hardware):
             if available_hardware:
                 if component.attrib['id'] not in available_hardware:
                     wrong_hardware = component.attrib['id']
-                    error_str = f"{wrong_hardware} is not defined in the given Hardware list. The allowed Hardware is: {', '.join(available_hardware)[:-2]}."
+                    error_str = f"{wrong_hardware} is not defined in the given Hardware list. The available Hardware is: {', '.join(available_hardware)[:-2]}."
                     step_str = ET.tostring(component, encoding='unicode', method='xml').strip()
                     error_list.append({"step": "Hardware definition", "errors": [error_str]})
-                    #error_list.append({"hardware": step_str, "errors": error_str})
             hardware_list.append(component.attrib['id'])
     return hardware_list, error_list, (error, strs)
 
 
-def parse_reagents(root, error_list):
+def parse_reagents(root, error_list, available_reagents):
     reagent_list = []
     for reagents in root.iter('Reagents'):
         for reagent in reagents.iter('Reagent'):
+            if available_reagents:
+                if reagent.attrib['name'] not in available_reagents:
+                    wrong_reagent = reagent.attrib['name']
+                    error_str = f"{wrong_reagent} is not defined in the given Reagents list. The available reagents are: {', '.join(available_reagents)[:-2]}."
+                    error_list.append({"step": "Reagents definition", "errors": [error_str]})
             errors = []
             if 'name' not in reagent.attrib:
                 errors.append(f"You must have 'name' property in Reagent")
@@ -145,7 +149,7 @@ def verify_procedure(root, hardware, reagents, error_list):
 
 
 
-def verify_synthesis(root, available_hardware):
+def verify_synthesis(root, available_hardware, available_reagents):
     error_list = []
     hardware, hardware_list_error_list, (errors, strs) = parse_hardware(root, error_list, available_hardware)
     if errors != "":
@@ -153,10 +157,10 @@ def verify_synthesis(root, available_hardware):
 
         #return error_list
         #return [{"step": "Hardware definition", "errors": errors}]
-    reagents = parse_reagents(root, error_list)
+    reagents = parse_reagents(root, error_list, available_reagents)
     return verify_procedure(root, hardware, reagents, error_list)
 
-def verify_xdl(xdl, available_hardware=None):
+def verify_xdl(xdl, available_hardware=None, available_reagents=None):
     """
     Verify XDL and return errors
     :param xdl: The XDL string to verify
@@ -170,4 +174,4 @@ def verify_xdl(xdl, available_hardware=None):
         root = ET.fromstring(xdl)
     except Exception as e:
         return [{"errors": ["Input XDL cannot be parsed as XML, there is {} error".format(str(e).split(":")[0])]}]
-    return verify_synthesis(root, available_hardware)
+    return verify_synthesis(root, available_hardware, available_reagents)
