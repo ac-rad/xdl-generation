@@ -54,7 +54,6 @@ def generate_xdl(file_path, available_hardware=None, available_reagents=None):
     prev_instr = instructions
     correct_syntax = False
     errors = {}
-    #error_list = set()
     task = "\nConvert to XDL:\n"
 
     constraints=""
@@ -66,8 +65,6 @@ def generate_xdl(file_path, available_hardware=None, available_reagents=None):
         constraints += f"\nThe available Reagents are: {reagents_str}\n"
     for step in range(10):
         print(constraints+"\nConvert to XDL:\n" + instructions)
-        #with open("test.txt") as f:
-        #    gpt3_output = f.read()
         try:
             gpt3_output = prompt(instructions, XDL, 1000, task, constraints)
         except openai.error.InvalidRequestError:
@@ -152,8 +149,7 @@ def main():
                 continue
             if ".txt" not in filename:
                 continue
-            if True:
-            #try:
+            try:
                 correct_syntax, xdl, errors = generate_xdl(
                     os.path.join(rootdir, filename), available_hardware, available_reagents
                 )
@@ -168,8 +164,7 @@ def main():
                     json.dump(errors, f)
                 total_num += 1
                 num_correct += correct_syntax
-            if False:
-            #except:
+            except:
                 print(filename, "error")
                 continue
     print(f"Total num correct:: {num_correct}")
