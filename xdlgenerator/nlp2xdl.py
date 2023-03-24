@@ -139,11 +139,7 @@ def main():
     num_correct = 0
     total_num = 0
     for rootdir, subdirs, filenames in os.walk(args.input_dir):
-        filenames_sorted = sorted(filenames)
-        np.random.seed(42)
-        np.random.shuffle(filenames_sorted)
-        filenames_subset = filenames_sorted[:125]
-        for ii, filename in tqdm(enumerate(sorted(filenames_subset))):
+        for ii, filename in tqdm(enumerate(sorted(filenames))):
             print(filename)
             if os.path.exists(os.path.join(output_dir, filename)):
                 continue
