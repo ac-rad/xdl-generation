@@ -1,4 +1,3 @@
-import argparse
 import json
 import os
 import sys
@@ -11,12 +10,16 @@ wd = os.getcwd()
 root_dir = "/".join(wd.split("/"))
 sys.path.append(root_dir)
 from verifier import verify
+# python ./xdl-generation/xdlgenerator/nlp2xdl.py --input_dir input_dir --avail_hardware hardware.txt --avail_reagents reagents.txt
+
+os.environ["OPENAI_API_KEY"] = "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 
 def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n", constraints=""):
     """prompt.
+
     Parameters
     ----------
     instructions :
@@ -30,7 +33,7 @@ def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n", co
     """
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt=description +constraints+ "\nConvert to XDL:\n" + instructions,
+        prompt=description + constraints + task + instructions,
         temperature=0,
         max_tokens=max_tokens,
         top_p=1,
@@ -42,6 +45,7 @@ def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n", co
 
 def generate_xdl(file_path, available_hardware=None, available_reagents=None):
     """generate_xdl.
+
     Parameters
     ----------
     file_path :
@@ -108,35 +112,31 @@ def generate_xdl(file_path, available_hardware=None, available_reagents=None):
         return correct_syntax, "The correct XDL could not be generated.", errors
 
 
-def main():
+def main(input_dir, avail_hardware=None, avail_reagents=None):
     """main."""
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--input_dir", required=True)
-    parser.add_argument("--avail_hardware", default=None, type=str)
-    parser.add_argument("--avail_reagents", default=None, type=str)
-    args = parser.parse_args()
-    if args.input_dir[-1] == "/":
-        args.input_dir = args.input_dir[:-1]
-    output_dir = args.input_dir + "_output"
+    print("Test passed")
+    if input_dir[-1] == "/":
+        input_dir = input_dir[:-1]
+    output_dir = input_dir + "_output"
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     available_hardware=None
     # if passed in avail hardware file, parse into list
-    if args.avail_hardware != None:
-        with open(args.avail_hardware) as f:
+    if avail_hardware != None:
+        with open(avail_hardware) as f:
             available_hardware = f.read().split("\n")
     print("available hardware:", available_hardware)
 
     available_reagents=None
     # if passed in avail reagents file, parse into list
-    if args.avail_reagents != None:
-        with open(args.avail_reagents) as f:
+    if avail_reagents != None:
+        with open(avail_reagents) as f:
             available_reagents= f.read().split("\n")
     print("available reagents:", available_reagents)
 
     num_correct = 0
     total_num = 0
-    for rootdir, subdirs, filenames in os.walk(args.input_dir):
+    for rootdir, subdirs, filenames in os.walk(input_dir):
         for ii, filename in tqdm(enumerate(sorted(filenames))):
             print(filename)
             if os.path.exists(os.path.join(output_dir, filename)):
@@ -150,11 +150,7 @@ def main():
                 print(filename, correct_syntax)
                 with open(os.path.join(output_dir, filename), "w") as f:
                     f.write(xdl)
-                with open(
-                    os.path.join(output_dir, filename.replace(
-                        ".txt", "_errors.json")),
-                    "w",
-                ) as f:
+                with open(os.path.join(output_dir, filename.replace(".txt", "_errors.json")),"w") as f:
                     json.dump(errors, f)
                 total_num += 1
                 num_correct += correct_syntax
@@ -163,6 +159,7 @@ def main():
                 continue
     print(f"Total num correct:: {num_correct}")
     print(f"Total num:: {total_num}")
+    
 
 
 if __name__ == "__main__":
