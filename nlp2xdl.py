@@ -150,6 +150,7 @@ def main(input_dir, avail_hardware=None, avail_reagents=None):
                 print(filename, correct_syntax)
                 with open(os.path.join(output_dir, filename), "w") as f:
                     f.write(xdl)
+                    print("test 1")
                 with open(os.path.join(output_dir, filename.replace(".txt", "_errors.json")),"w") as f:
                     json.dump(errors, f)
                 total_num += 1
@@ -163,4 +164,4 @@ def main(input_dir, avail_hardware=None, avail_reagents=None):
 
 
 if __name__ == "__main__":
-    main()
+    main("input_dir")
