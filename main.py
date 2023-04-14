@@ -15,7 +15,6 @@ def translate(input_xdl):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     
-    
     if request.method == 'POST' and request.form["submit_button"] == "Translate":
         alert_message = "The plan requires lemon, but you don't have lemon in your available reagents list. The most similar reagent you have is lime, can I use that instead?"
         input_xdl = request.form['input_field']
