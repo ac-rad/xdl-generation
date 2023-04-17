@@ -139,8 +139,6 @@ def main(input_dir, avail_hardware=None, avail_reagents=None):
     for rootdir, subdirs, filenames in os.walk(input_dir):
         for ii, filename in tqdm(enumerate(sorted(filenames))):
             print(filename)
-            if os.path.exists(os.path.join(output_dir, filename)):
-                continue
             if ".txt" not in filename:
                 continue
             try:
