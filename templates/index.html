@@ -4,6 +4,8 @@
     <title>CLAIRify</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&amp;display=swap" rel="stylesheet">
+    <link rel="icon" href="static/img/logo.png">
 </head>
 <body>
     <div id="header">
@@ -11,13 +13,8 @@
         <p>Translate natural language to XDL.</p>
     </div>
     <div id="content">
-        {% if alert_message %}
-            <div style="display: none" id="alert_message">{{alert_message}}</div>
-            <div style="width: 100px; height: 50px; background-color: red;" onclick="confirmReagents(document.getElementById('alert_message').innerText)">Test_alert</div>
-        {% endif %}
         <div id="form_container">
             <form id="input_form" method="POST">
-                
                 <label for="input_field">Enter instructions to be translated to XDL</label>
                 {% if input_xdl %}
                 <textarea id="input_field" name="input_field" placeholder="e.g. Pour water into a cup and stir.">{{input_xdl}}</textarea>
@@ -36,7 +33,7 @@
             {% endif %}
         </div>
         <span class="rectangle" onclick="createTextArea()">
-            <p>Enter API key</p>
+            <p>Enter Openai API Key</p>
             <svg id="plus-button" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 300 300" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"><rect width="203.340596" height="18.15541" rx="9.08" ry="9.08" transform="translate(51.234568 140.922295)" fill="#d2dbed" stroke-width="0"/><rect width="203.340596" height="18.15541" rx="9.08" ry="9.08" transform="matrix(0 1-1 0 161.982571 48.329702)" fill="#d2dbed" stroke-width="0"/></svg>
         </span>
     </div>

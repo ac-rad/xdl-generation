@@ -37,7 +37,6 @@ function createTextArea() {
     plus_button.removeAttribute("class", "rotated");
   } else {
     plus_button.setAttribute("class", "rotated");
-    console.log("rotated");
   }
 
   if (isCreatingTextArea) {
@@ -54,15 +53,35 @@ function createTextArea() {
   if (!apiKeyTextarea) {
     apiKeyTextarea = document.createElement("textarea");
     apiKeyTextarea.setAttribute("id", "api-key-textarea");
+    apiKeyTextarea.setAttribute("name", "api-key-textarea");
+    apiKeyTextarea.setAttribute("value", "api-key-textarea");
     apiKeyTextarea.setAttribute("placeholder", "Enter API key");
   }
 
   if (!submitButton) {
     submitButton = document.createElement("button");
-    submitButton.setAttribute("style", "background-color: #EB6F65; color: white; border: 0px; border-radius: 4px;");
+    submitButton.setAttribute("id", "save-api-key");
+    submitButton.setAttribute("name", "submit_button");
+    submitButton.setAttribute("value", "Save API Key");
     submitButton.innerHTML = "Save API key";
     submitButton.onclick = function() {
       alert("Textarea content: " + apiKeyTextarea.value);
+      fetch('/send-string', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
 
       const container = document.getElementById("content");
       container.removeChild(apiKeyTextarea);
@@ -78,30 +97,6 @@ function createTextArea() {
   container.appendChild(apiKeyTextarea);
   container.appendChild(submitButton);
 }
-
-// translateButton.addEventListener('click', () => {
-//   console.log(outputcontainer.textContent.trim());
-//   if (!outputcontainer.textContent.trim()) {
-//     translateButton.value = 'Loading...';
-//     const input_text = textarea.value;
-//     $.ajax({
-//       url: "/",
-//       type: "POST",
-//       data: { input_field: input_text, submit_button: "Translate" },
-//       success: function(response) {
-//           outputcontainer.textContent = response.text;
-//           translateButton.value = 'Translate';
-//       }
-//     });
-//   }
-// });
-
-// // <![CDATA[
-//   function loading(){
-//     $("#loading").show();
-//     $("#content").hide();       
-// }
-// // ]]>
 
 function confirmReagents(alert_message) {
   const confirmed = confirm(alert_message);
