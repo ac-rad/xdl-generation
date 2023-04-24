@@ -1,0 +1,20 @@
+<XDL>
+  <Synthesis>  
+      <Hardware>
+          <Component id="beaker" />
+      </Hardware>
+  
+      <Reagents>
+          <Reagent name="hot water" />
+          <Reagent name="sugar" />
+      </Reagents>
+  
+      <Procedure>
+          <Add vessel="beaker" reagent="hot water" amount="100g" />
+          <Add vessel="beaker" reagent="sugar" amount="150g" />
+          <StartStir vessel="beaker" />
+          <Wait time="3min" />
+          <StopStir vessel="beaker" />
+      </Procedure>
+  </Synthesis>
+</XDL>

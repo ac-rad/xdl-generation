@@ -12,7 +12,7 @@ sys.path.append(root_dir)
 from verifier import verify
 # python ./xdl-generation/xdlgenerator/nlp2xdl.py --input_dir input_dir --avail_hardware hardware.txt --avail_reagents reagents.txt
 
-os.environ["OPENAI_API_KEY"] = "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"
+# os.environ["OPENAI_API_KEY"] = "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"  
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
 

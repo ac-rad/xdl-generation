@@ -1,17 +1,33 @@
+:root {
+    --background-palette: white;
+    --box-palette: #cccccc;
+    --text-box-palette: #eeeeee;
+    --main-pink: #FF7AAC;
+    --text-color: rgb(71, 71, 71);
+
+}
+
 body {
-    background-color: #2F2E3E; /* dark purple */
-    color: white;
+    background-color: var(--background-palette); /* dark purple */
+    color: var(--text-color);
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
     margin: 0;
     padding: 0;
     height: 100vh;
+    font-family: 'IBM Plex Sans', sans-serif;
 }
 
 #header {
-    background-color: #3C3B54; /* dark grayish-purple */
+    background-color: var(--background-palette); /* dark grayish-purple */
     padding: 10px;
     text-align: center;
+}
+
+h1 {
+    color: var(--main-pink);
+    font-size: 300%;
+    margin: 0;
 }
 
 #content {
@@ -23,7 +39,7 @@ body {
 }
 
 #form_container {
-    background-color: #5E5D7E; /* light grayish-purple */
+    background-color: var(--box-palette); /* light grayish-purple */
     border-radius: 5px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
     padding: 20px;
@@ -42,19 +58,19 @@ form label {
 form textarea {
     border-radius: 3px;
     border: none;
-    color: whitesmoke;
+    color: var(--text-color);
     min-height: 80%;
     resize: none;
-    background-color: #2F2E3E;
+    background-color: var(--text-box-palette);
     padding: 5px;
     width: 97.5%;
 }
 
 form input[type="submit"] {
-    background-color: #EB6F65; /* reddish-orange */
+    background-color: var(--main-pink); /* reddish-orange */
     border-radius: 3px;
     border: none;
-    color: white;
+    color: var(--background-palette);
     cursor: pointer;
     height: 40px;
     margin-top: 10px;
@@ -62,7 +78,7 @@ form input[type="submit"] {
 }
 
 #output_container {
-    background-color: #5E5D7E; /* light grayish-purple */
+    background-color: var(--box-palette); /* light grayish-purple */
     border-radius: 5px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
     margin-left: 20px;
@@ -78,10 +94,10 @@ form input[type="submit"] {
 
 #output_container pre {
     min-height: 90%;
-    background-color: #2F2E3E; /* dark grayish-purple */
+    background-color: var(--text-box-palette);
+    ; /* dark grayish-purple */
     border-radius: 3px;
-    color: white;
-    font-family: "Courier New", Courier, monospace;
+    color: var(--text-color);
     font-size: 12px;
     overflow: auto;
     padding: 5px;
@@ -103,29 +119,29 @@ svg#plus-button.rotated {
 }
 
 span.rectangle {
-    background-color: #EB6F65;
+    background-color: var(--main-pink);
     border-radius: 20px;
     display: inline-block;
-    width: 150px;
+    width: 210px;
     height: 50px;
     position: absolute;
     bottom: 20px;
     right: 20px;
     text-indent: 7px;
+    color: var(--background-palette);
   }
 
 textarea#api-key-textarea {
     margin-left: 50px;
-    background-color: #2F2E3E;
-    color: white;
+    background-color: var(--text-box-palette);
+    color: var(--background-palette);
     border-width: 5px;
-    border-color: #5E5D7E;
+    border-color: var(--box-palette);
 }
 
-div#loading {
-    width: 35px;
-    height: 35px;
-    display: none;
-    background: url(static\purple_gif_big.gif) no-repeat;
-    cursor: wait;
+button#save-api-key {
+    background-color: var(--main-pink);
+    color: white;
+    border: 0px;
+    border-radius: 4px;
 }
