@@ -1,24 +1,7 @@
-const textarea = document.getElementById('input_field');
-const outputcontainer = document.getElementById('output_container_pre');
-const translateButton = document.querySelector('input[name="submit_button"]');
 let userId = localStorage.getItem('userId');
 let isCreatingTextArea = false;
 let apiKeyTextarea = null;
 let submitButton = null;
-
-textarea.addEventListener('input', () => {
-  const oldHeight = outputcontainer.clientHeight;
-  textarea.style.height = 'auto';
-  textarea.style.height = `${textarea.scrollHeight}px`;
-
-  outputcontainer.style.height = 'auto';
-  outputcontainer.style.height = `${textarea.scrollHeight - 10}px`;
-
-  const newHeight = outputcontainer.clientHeight;
-  if (newHeight < oldHeight) {
-    outputcontainer.style.height = `${newHeight}px`;
-  }
-});
 
 if (!userId) {
   userId = Math.floor(Math.random() * 1000000000000000000000000);

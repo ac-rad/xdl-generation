@@ -20,7 +20,7 @@ body {
 
 #header {
     background-color: var(--background-palette); /* dark grayish-purple */
-    padding: 10px;
+    padding: 0;
     text-align: center;
 }
 
@@ -144,4 +144,25 @@ button#save-api-key {
     color: white;
     border: 0px;
     border-radius: 4px;
+}
+
+footer {
+    text-align: center;
+    position: fixed;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    width: auto;
+}
+
+footer a {
+    font-weight: 800;
+    color: var(--main-pink);
+    text-decoration: none;
+}
+
+footer a:hover {
+    font-weight: 800;
+    padding: 0;
+    border-bottom: 3px solid var(--main-pink);
 }
