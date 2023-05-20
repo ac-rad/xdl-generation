@@ -6,20 +6,12 @@ app = Flask(__name__)
 app.secret_key = 'my_secret_key' 
 
 def translate(input_xdl):
-    with open("input_dir_output/Input.txt", "r") as f:
-        original = f.read()
     with open("input_dir/Input.txt", "w") as f:
         f.write(input_xdl)
     generate_xdl.main("input_dir")
-    f = open("input_dir_output/Input.txt", "r")
-    new = f.read()
-    f.close()
-    if new != original:
-        return new
-    else:
-        with open("input_dir_output/Input.txt", 'w') as f:
-            f.write("Failed to convert to XDL")
-        return "Failed to convert to XDL"
+    with open("input_dir_output/Input.txt", "r") as f:
+        return f.read()
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -32,4 +24,4 @@ def index():
     return render_template("index.html", input_xdl=None, output_xdl=None)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000)
+    app.run(debug=True)

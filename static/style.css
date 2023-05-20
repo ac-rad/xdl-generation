@@ -105,31 +105,30 @@ form input[type="submit"] {
     word-wrap: break-word;
 }
 
-svg#plus-button {
-    width: 50px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    transform: rotate(0);
-    transition: transform 0.5s ease-in-out;  
-}
-
-svg#plus-button.rotated {
-    transform: rotate(270deg);
-}
-
 span.rectangle {
     background-color: var(--main-pink);
     border-radius: 20px;
     display: inline-block;
-    width: 210px;
-    height: 50px;
+    width: auto;
+    height: auto;
+    padding: 0 20px 0 20px;
     position: absolute;
     bottom: 20px;
     right: 20px;
     text-indent: 7px;
     color: var(--background-palette);
   }
+
+span.rectangle p{
+    text-align: center;
+    font-size: 130%;
+}
+
+span.rectangle p a {
+    font-weight: bold;
+    color: var(--background-palette);
+    text-decoration: none;
+}
 
 textarea#api-key-textarea {
     margin-left: 50px;
@@ -144,25 +143,4 @@ button#save-api-key {
     color: white;
     border: 0px;
     border-radius: 4px;
-}
-
-footer {
-    text-align: center;
-    position: fixed;
-    bottom: 5px;
-    left: 0;
-    right: 0;
-    width: auto;
-}
-
-footer a {
-    font-weight: 800;
-    color: var(--main-pink);
-    text-decoration: none;
-}
-
-footer a:hover {
-    font-weight: 800;
-    padding: 0;
-    border-bottom: 3px solid var(--main-pink);
 }
