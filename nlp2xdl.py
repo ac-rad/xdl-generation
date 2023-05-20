@@ -12,9 +12,9 @@ sys.path.append(root_dir)
 from verifier import verify
 # python ./xdl-generation/xdlgenerator/nlp2xdl.py --input_dir input_dir --avail_hardware hardware.txt --avail_reagents reagents.txt
 
-#os.environ["OPENAI_API_KEY"] = "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"  
 
-#openai.api_key = os.environ["OPENAI_API_KEY"]
+with open("static/config.json") as f:
+    openai.api_key = json.load(f)["OPENAI_API_KEY"]
 
 
 def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n", constraints=""):
@@ -142,6 +142,7 @@ def main(input_dir, avail_hardware=None, avail_reagents=None):
             if ".txt" not in filename:
                 continue
             try:
+                print("test 0")
                 correct_syntax, xdl, errors = generate_xdl(
                     os.path.join(rootdir, filename), available_hardware, available_reagents
                 )
@@ -154,7 +155,6 @@ def main(input_dir, avail_hardware=None, avail_reagents=None):
                 total_num += 1
                 num_correct += correct_syntax
             except:
-
                 print(filename, "error")
                 continue
     print(f"Total num correct:: {num_correct}")
