@@ -16,7 +16,7 @@ def translate(input_xdl):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     
-    if request.method == 'POST' and request.form["submit_button"] == "Translate":
+    if request.method == 'POST' and (request.form["submit_button"] == "Loading..." or request.form["submit_button"] == "Translate"):
         input_xdl = request.form['input_field']
         output_xdl = translate(input_xdl)
         return render_template("index.html", input_xdl=input_xdl, output_xdl=output_xdl)
