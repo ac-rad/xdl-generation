@@ -15,6 +15,12 @@ getConfig();
 
 const button = document.getElementById("submit_button");
 button.addEventListener("click", (event) => {
-  // event.preventDefault();
   button.value = "Loading...";
 });
+
+
+
+function copyClipboard() {
+  const copyText = document.getElementsByTagName("code")[0].innerText;
+  navigator.clipboard.writeText(copyText);
+}
