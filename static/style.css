@@ -10,12 +10,12 @@
 body {
     background-color: var(--background-palette);
     color: var(--text-color);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 16px;
     margin: 0;
     padding: 0;
     height: 100vh;
-    font-family: 'IBM Plex Sans', sans-serif;
+    
 }
 
 #header {
@@ -135,7 +135,6 @@ span.rectangle:active {
 }
 
 span.rectangle p {
-    text-align: center;
     font-size: 130%;
 }
 
@@ -147,19 +146,40 @@ span.rectangle p a {
 
 #copy_button {
     position: absolute;
-    right: 10px;
-    top: 10px;
     border: none;
     background: none;
     border-radius: 10px;
     padding: 5px;
+    right: 10px;
+    top: 10px;
 }
-
+  
 #copy_button:hover {
     cursor: pointer;
     background-color: lightgrey;
 }
-
+  
 #copy_button:active {
     filter: brightness(80%);
 }
+  
+#copy_button::after {
+    content: "";
+    opacity: 0;
+    transition: opacity 0.5s 1.5s;
+}
+  
+#copy_button:hover::after {
+    content: "Click to add XDL\a to clipboard.";
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    background-color: lightgrey;
+    color: var(--text-color);
+    padding: 5px;
+    border-radius: 5px;
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+  
