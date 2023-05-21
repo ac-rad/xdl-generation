@@ -10,7 +10,7 @@ wd = os.getcwd()
 root_dir = "/".join(wd.split("/"))
 sys.path.append(root_dir)
 from verifier import verify
-# python ./xdl-generation/xdlgenerator/nlp2xdl.py --input_dir input_dir --avail_hardware hardware.txt --avail_reagents reagents.txt
+
 
 
 with open("static/config.json") as f:
@@ -114,7 +114,6 @@ def generate_xdl(file_path, available_hardware=None, available_reagents=None):
 
 def main(input_dir, avail_hardware=None, avail_reagents=None):
     """main."""
-    print("Test passed")
     if input_dir[-1] == "/":
         input_dir = input_dir[:-1]
     output_dir = input_dir + "_output"
@@ -142,14 +141,12 @@ def main(input_dir, avail_hardware=None, avail_reagents=None):
             if ".txt" not in filename:
                 continue
             try:
-                print("test 0")
                 correct_syntax, xdl, errors = generate_xdl(
                     os.path.join(rootdir, filename), available_hardware, available_reagents
                 )
                 print(filename, correct_syntax)
                 with open(os.path.join(output_dir, filename), "w") as f:
                     f.write(xdl)
-                    print("test 1")
                 with open(os.path.join(output_dir, filename.replace(".txt", "_errors.json")),"w") as f:
                     json.dump(errors, f)
                 total_num += 1
