@@ -10,11 +10,8 @@ wd = os.getcwd()
 root_dir = "/".join(wd.split("/"))
 sys.path.append(root_dir)
 from verifier import verify
-# python ./xdl-generation/xdlgenerator/nlp2xdl.py --input_dir input_dir --avail_hardware hardware.txt --avail_reagents reagents.txt
-
-#os.environ["OPENAI_API_KEY"] = "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"  
-
-#openai.api_key = os.environ["OPENAI_API_KEY"]
+with open("static/config.json") as f:
+    openai.api_key = json.load(f)["OPENAI_API_KEY"]
 
 
 def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n", constraints=""):
@@ -114,7 +111,6 @@ def generate_xdl(file_path, available_hardware=None, available_reagents=None):
 
 def main(input_dir, avail_hardware=None, avail_reagents=None):
     """main."""
-    print("Test passed")
     if input_dir[-1] == "/":
         input_dir = input_dir[:-1]
     output_dir = input_dir + "_output"
@@ -148,13 +144,11 @@ def main(input_dir, avail_hardware=None, avail_reagents=None):
                 print(filename, correct_syntax)
                 with open(os.path.join(output_dir, filename), "w") as f:
                     f.write(xdl)
-                    print("test 1")
                 with open(os.path.join(output_dir, filename.replace(".txt", "_errors.json")),"w") as f:
                     json.dump(errors, f)
                 total_num += 1
                 num_correct += correct_syntax
             except:
-
                 print(filename, "error")
                 continue
     print(f"Total num correct:: {num_correct}")

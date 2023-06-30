@@ -8,18 +8,18 @@
 }
 
 body {
-    background-color: var(--background-palette); /* dark purple */
+    background-color: var(--background-palette);
     color: var(--text-color);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 16px;
     margin: 0;
     padding: 0;
     height: 100vh;
-    font-family: 'IBM Plex Sans', sans-serif;
+    
 }
 
 #header {
-    background-color: var(--background-palette); /* dark grayish-purple */
+    background-color: var(--background-palette);
     padding: 0;
     text-align: center;
 }
@@ -39,7 +39,7 @@ h1 {
 }
 
 #form_container {
-    background-color: var(--box-palette); /* light grayish-purple */
+    background-color: var(--box-palette);
     border-radius: 5px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
     padding: 20px;
@@ -67,7 +67,7 @@ form textarea {
 }
 
 form input[type="submit"] {
-    background-color: var(--main-pink); /* reddish-orange */
+    background-color: var(--main-pink);
     border-radius: 3px;
     border: none;
     color: var(--background-palette);
@@ -78,7 +78,7 @@ form input[type="submit"] {
 }
 
 #output_container {
-    background-color: var(--box-palette); /* light grayish-purple */
+    background-color: var(--box-palette);
     border-radius: 5px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
     margin-left: 20px;
@@ -95,7 +95,13 @@ form input[type="submit"] {
 #output_container pre {
     min-height: 90%;
     background-color: var(--text-box-palette);
-    ; /* dark grayish-purple */
+    border-radius: 3px;
+    color: var(--text-color);
+}
+
+#output_container pre code {
+    min-height: 90%;
+    background-color: var(--text-box-palette);
     border-radius: 3px;
     color: var(--text-color);
     font-size: 12px;
@@ -105,25 +111,13 @@ form input[type="submit"] {
     word-wrap: break-word;
 }
 
-svg#plus-button {
-    width: 50px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    transform: rotate(0);
-    transition: transform 0.5s ease-in-out;  
-}
-
-svg#plus-button.rotated {
-    transform: rotate(270deg);
-}
-
 span.rectangle {
     background-color: var(--main-pink);
     border-radius: 20px;
     display: inline-block;
-    width: 210px;
-    height: 50px;
+    width: auto;
+    height: auto;
+    padding: 0 20px 0 20px;
     position: absolute;
     bottom: 20px;
     right: 20px;
@@ -131,38 +125,61 @@ span.rectangle {
     color: var(--background-palette);
   }
 
-textarea#api-key-textarea {
-    margin-left: 50px;
-    background-color: var(--text-box-palette);
+span.rectangle:hover {
+    cursor: pointer;
+    filter: brightness(96%);
+}
+
+span.rectangle:active {
+    filter: brightness(80%);
+}
+
+span.rectangle p {
+    font-size: 130%;
+}
+
+span.rectangle p a {
+    font-weight: bold;
     color: var(--background-palette);
-    border-width: 5px;
-    border-color: var(--box-palette);
-}
-
-button#save-api-key {
-    background-color: var(--main-pink);
-    color: white;
-    border: 0px;
-    border-radius: 4px;
-}
-
-footer {
-    text-align: center;
-    position: fixed;
-    bottom: 5px;
-    left: 0;
-    right: 0;
-    width: auto;
-}
-
-footer a {
-    font-weight: 800;
-    color: var(--main-pink);
     text-decoration: none;
 }
 
-footer a:hover {
-    font-weight: 800;
-    padding: 0;
-    border-bottom: 3px solid var(--main-pink);
+#copy_button {
+    position: absolute;
+    border: none;
+    background: none;
+    border-radius: 10px;
+    padding: 5px;
+    right: 10px;
+    top: 10px;
 }
+  
+#copy_button:hover {
+    cursor: pointer;
+    background-color: lightgrey;
+}
+  
+#copy_button:active {
+    filter: brightness(80%);
+}
+  
+#copy_button::after {
+    content: "";
+    opacity: 0;
+    transition: opacity 0.5s 1.5s;
+}
+  
+#copy_button:hover::after {
+    content: "Click to add XDL\a to clipboard.";
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    background-color: lightgrey;
+    color: var(--text-color);
+    padding: 5px;
+    border-radius: 5px;
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+  
