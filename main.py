@@ -22,8 +22,4 @@ def index():
     return render_template("index.html", input_xdl=None, output_xdl=None)
 
 if __name__ == '__main__':
-<<<<<<< HEAD
-    app.run(host='0.0.0.0', port=3000)
-=======
-    app.run(debug=True)
->>>>>>> 956871d6df986011866afb467bdf7ba253e6595a
+    app.run(debug=True, port=12345)
