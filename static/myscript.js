@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 let userId = localStorage.getItem('userId');
 let isCreatingTextArea = false;
 let apiKeyTextarea = null;
@@ -85,6 +86,8 @@ function confirmReagents(alert_message) {
   const confirmed = confirm(alert_message);
 }
 
+=======
+>>>>>>> 956871d6df986011866afb467bdf7ba253e6595a
 async function getConfig() {
   try {
     const response = await fetch('static/config.json');
@@ -99,3 +102,15 @@ async function getConfig() {
 }
 
 getConfig();
+
+const button = document.getElementById("submit_button");
+button.addEventListener("click", (event) => {
+  button.value = "Loading...";
+});
+
+
+
+function copyClipboard() {
+  const copyText = document.getElementsByTagName("code")[0].innerText;
+  navigator.clipboard.writeText(copyText);
+}
