@@ -14,6 +14,7 @@ convertHTMLString = (msg) => {
 }
 
 const createMessage = (msg) => {
+    console.log(msg)
     
     const content = `
     <div class="text">

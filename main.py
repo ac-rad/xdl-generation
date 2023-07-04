@@ -25,8 +25,9 @@ def translate(input_xdl):
 
 def run_translation(input_xdl):
     global thread
+    print("translation is running")
     with thread_lock:
-        thread = Thread(target=translate, args=(input_xdl,))
+        thread = Thread(target=translate, args=(input_xdl))
         thread.start()
 
 
@@ -41,6 +42,10 @@ def index():
         return render_template("index.html", input_xdl=input_xdl)
 
     return render_template("index.html", input_xdl="")
+
+@app.route('/device')
+def device():
+    return render_template("device.html")
 
 @socketio.on('translate')
 def console():

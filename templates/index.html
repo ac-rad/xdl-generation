@@ -21,7 +21,7 @@
     <div id="content">
         <div id="main" class="tabcontent">
             <div id="form_container">
-                <form onsubmit="return false" id="input_form" method="POST">
+                <form id="input_form" method="POST">
                     <label for="input_field">Enter instructions to be translated to XDL</label>
                     <textarea id="input_field" name="input_field" placeholder="e.g. Pour water into a cup and stir.">{{input_xdl}}</textarea>
                     <input id="submit_button" type="submit" name="submit_button" value="Translate"></input>
@@ -36,7 +36,7 @@
         <div id="console" class="tabcontent">
             
             <div id="messages_container">
-                Console:
+                <p>Console:</p>
                 <div id="messages"></div>
             </div>
         </div>
@@ -47,9 +47,9 @@
 
     
 
+    <script src="{{ url_for('static', filename='myscript.js') }}"></script>
     <script src="static/socketio.js" type="text/javascript" charset="utf-8"></script>
     <script src="static/tabs.js" type="text/javascript" charset="utf-8"></script>
-    <script src="{{ url_for('static', filename='myscript.js') }}"></script>
     <script src="static/prism/prism.js"></script>
   </body>
 </html>
