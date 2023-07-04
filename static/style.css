@@ -171,15 +171,19 @@ span.rectangle p a {
     width: 800px;
 }
 
+#messages_container p {
+    margin-bottom: 1%;
+}
+
 #messages {
     border-radius: 3px;
     border: none;
     color: var(--text-color);
-    height: 95%;
+    height: 87%;
     resize: none;
     background-color: var(--text-box-palette);
-    bottom: 10px;
     overflow-y: scroll;
+    padding: 5px;
 }
 
 .tab {

@@ -1,3 +1,10 @@
+if (window.innerWidth < 701) {
+  window.location.href = 'device';
+  console.log("test1")
+}
+console.log("test2", window.innerWidth)
+
+
 async function getConfig() {
   try {
     const response = await fetch('static/config.json');
