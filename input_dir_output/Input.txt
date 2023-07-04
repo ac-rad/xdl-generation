@@ -7,14 +7,17 @@
       <Reagents>
           <Reagent name="hot water" />
           <Reagent name="sugar" />
+          <Reagent name="star anise" />
       </Reagents>
   
       <Procedure>
           <Add vessel="beaker" reagent="hot water" amount="100g" />
           <Add vessel="beaker" reagent="sugar" amount="150g" />
+          <Add vessel="beaker" reagent="star anise" amount="10g" />
           <StartStir vessel="beaker" />
-          <Wait time="3min" />
+          <Stir vessel="beaker" time="3min" />
           <StopStir vessel="beaker" />
+          <FilterThrough from_vessel="beaker" to_vessel="beaker" through="coffee filter" />
       </Procedure>
   </Synthesis>
 </XDL>

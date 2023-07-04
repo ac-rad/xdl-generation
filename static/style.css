@@ -34,8 +34,7 @@ h1 {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-    height: fit-content;
-    min-height: 75%;
+    height: 70%;
 }
 
 #form_container {
@@ -72,8 +71,8 @@ form input[type="submit"] {
     border: none;
     color: var(--background-palette);
     cursor: pointer;
-    height: 40px;
-    margin-top: 10px;
+    height: 8%;
+    margin: 2% 0 2% 0;
     width: 100%;
 }
 
@@ -93,19 +92,19 @@ form input[type="submit"] {
 }
 
 #output_container pre {
-    min-height: 90%;
+    height: 90%;
     background-color: var(--text-box-palette);
     border-radius: 3px;
     color: var(--text-color);
 }
 
 #output_container pre code {
-    min-height: 90%;
+    height: 90%;
     background-color: var(--text-box-palette);
     border-radius: 3px;
     color: var(--text-color);
     font-size: 12px;
-    overflow: auto;
+    overflow-y: scroll;
     padding: 5px;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -118,7 +117,7 @@ span.rectangle {
     width: auto;
     height: auto;
     padding: 0 20px 0 20px;
-    position: absolute;
+    position: fixed;
     bottom: 20px;
     right: 20px;
     text-indent: 7px;
@@ -163,23 +162,69 @@ span.rectangle p a {
     filter: brightness(80%);
 }
   
-#copy_button::after {
-    content: "";
-    opacity: 0;
-    transition: opacity 0.5s 1.5s;
-}
-  
-#copy_button:hover::after {
-    content: "Click to add XDL\a to clipboard.";
-    position: absolute;
-    top: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 1;
-    background-color: lightgrey;
-    color: var(--text-color);
-    padding: 5px;
+#messages_container {
+    background-color: var(--box-palette);
     border-radius: 5px;
-    font-family: 'IBM Plex Sans', sans-serif;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+    padding: 20px;
+    margin-left: 20px;
+    width: 800px;
 }
+
+#messages {
+    border-radius: 3px;
+    border: none;
+    color: var(--text-color);
+    height: 95%;
+    resize: none;
+    background-color: var(--text-box-palette);
+    bottom: 10px;
+    overflow-y: scroll;
+}
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+  }
   
+  /* Style the buttons that are used to open the tab content */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+  }
+  
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+  
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+  
+  /* Style the tab content */
+  .tabcontent {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    animation: fadeInOut 1s;
+  }
+
+  @keyframes fadeInOut {
+    0% {
+        opacity: 0.8;
+    }
+    
+    100% {
+        opacity: 1;
+    }
+  }

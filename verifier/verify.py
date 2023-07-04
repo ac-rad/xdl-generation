@@ -1,4 +1,3 @@
-import argparse
 import xml.etree.ElementTree as ET
 
 mandatory_properties = {
@@ -141,6 +140,12 @@ def verify_procedure(root, hardware, reagents, error_list):
                 if 'reagent' in step.attrib and step.attrib['reagent'] not in reagents:
                     reagent_name = step.attrib["reagent"]
                     errors.append(f"{reagent_name} is not defined in Reagents")
+
+                # Check if there is any text content between tags
+                for elem in step.iter():
+                    if elem.text and elem.text.strip() and elem != step:
+                        errors.append("There should be no text content between tags.")
+
             if errors:
                 step_str = ET.tostring(step, encoding='unicode', method='xml').strip()
                 step_str = ' '.join(step_str.split())
@@ -151,6 +156,12 @@ def verify_procedure(root, hardware, reagents, error_list):
 
 def verify_synthesis(root, available_hardware, available_reagents):
     error_list = []
+    for element in root.iter():
+        if element.text and element.text.strip():
+            errors = [f"Tags should not have text content: '{element.text.strip()}'"]
+            step_str = ET.tostring(element, encoding='unicode', method='xml').strip()
+            error_list.append({"step": step_str, "errors": errors})
+
     hardware, hardware_list_error_list, (errors, strs) = parse_hardware(root, error_list, available_hardware)
     if errors != "":
         error_list.append({"step": "Hardware definition", "errors": [errors]})
