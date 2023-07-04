@@ -5,11 +5,15 @@ import sys
 import numpy as np
 import openai
 from tqdm import tqdm
+from flask_socketio import emit
 
 wd = os.getcwd()
 root_dir = "/".join(wd.split("/"))
 sys.path.append(root_dir)
 from verifier import verify
+
+
+
 with open("static/config.json") as f:
     openai.api_key = json.load(f)["OPENAI_API_KEY"]
 
@@ -40,7 +44,7 @@ def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n", co
     return response["choices"][0]["text"]
 
 
-def generate_xdl(file_path, available_hardware=None, available_reagents=None):
+def generate_xdl(file_path, socketio, available_hardware=None, available_reagents=None):
     """generate_xdl.
 
     Parameters
@@ -63,14 +67,15 @@ def generate_xdl(file_path, available_hardware=None, available_reagents=None):
         reagents_str = ", ".join(available_reagents)[:-2]
         constraints += f"\nThe available Reagents are: {reagents_str}\n"
     for step in range(10):
-        print(constraints+"\nConvert to XDL:\n" + instructions)
+        socketio.emit("message", f"{constraints}\nConvert to XDL:\n{instructions}")
         try:
             gpt3_output = prompt(instructions, XDL, 1000, task, constraints)
-        except openai.error.InvalidRequestError:
+        except:
              gpt3_output = prompt(instructions, XDL, 750, task, constraints)
-        print("gpt3 output:::")
-        print(gpt3_output)
-        print("******")
+        socketio.emit("message", "gpt3 output:::")
+        socketio.emit("message_xdl", f"{gpt3_output}")
+        print(f"output: {gpt3_output}")
+        socketio.emit("message", "******")
         gpt3_output = gpt3_output[gpt3_output.index("<XDL>"):]
         compile_correct = verify.verify_xdl(gpt3_output, available_hardware, available_reagents)
         errors[step] = {
@@ -109,7 +114,7 @@ def generate_xdl(file_path, available_hardware=None, available_reagents=None):
         return correct_syntax, "The correct XDL could not be generated.", errors
 
 
-def main(input_dir, avail_hardware=None, avail_reagents=None):
+def main(input_dir, socketio, avail_hardware=None, avail_reagents=None):
     """main."""
     if input_dir[-1] == "/":
         input_dir = input_dir[:-1]
@@ -121,40 +126,39 @@ def main(input_dir, avail_hardware=None, avail_reagents=None):
     if avail_hardware != None:
         with open(avail_hardware) as f:
             available_hardware = f.read().split("\n")
-    print("available hardware:", available_hardware)
+    socketio.emit("message", f"available hardware: {available_hardware}")
 
     available_reagents=None
     # if passed in avail reagents file, parse into list
     if avail_reagents != None:
         with open(avail_reagents) as f:
             available_reagents= f.read().split("\n")
-    print("available reagents:", available_reagents)
+    socketio.emit("message", "available reagents: {available_reagents}")
 
     num_correct = 0
     total_num = 0
     for rootdir, subdirs, filenames in os.walk(input_dir):
         for ii, filename in tqdm(enumerate(sorted(filenames))):
-            print(filename)
+            socketio.emit("message", filename)
             if ".txt" not in filename:
                 continue
             try:
                 correct_syntax, xdl, errors = generate_xdl(
-                    os.path.join(rootdir, filename), available_hardware, available_reagents
+                    os.path.join(rootdir, filename), socketio, available_hardware, available_reagents
                 )
-                print(filename, correct_syntax)
+                socketio.emit("message", f"{xdl}")
+                socketio.emit("correct_xdl", f"{xdl}")
+                socketio.emit("message", f"{filename}\n{correct_syntax}")
                 with open(os.path.join(output_dir, filename), "w") as f:
                     f.write(xdl)
                 with open(os.path.join(output_dir, filename.replace(".txt", "_errors.json")),"w") as f:
                     json.dump(errors, f)
                 total_num += 1
                 num_correct += correct_syntax
-            except:
-                print(filename, "error")
+            except Exception as e:
+                socketio.emit("message", f"{e} {filename} error")
                 continue
-    print(f"Total num correct:: {num_correct}")
-    print(f"Total num:: {total_num}")
     
-
-
-if __name__ == "__main__":
-    main("input_dir")
+    socketio.emit("message", f"Total num correct:: {num_correct}")
+    socketio.emit("message", f"Total num:: {total_num}")
+    
