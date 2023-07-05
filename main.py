@@ -7,6 +7,7 @@ from threading import Thread, Lock
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "".join([chr(random.randint(97, 122)) for _ in range(10)])
+app.config["SESSION_COOKIE_SECURE"] = True
 socketio = SocketIO(app)
 
 thread = None
