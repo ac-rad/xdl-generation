@@ -18,5 +18,5 @@ function resize(e) {
 
 function stopResize() {
   document.removeEventListener('mousemove', resize);
-  document.removeEventListener('mouseup', stopResize);
+  document.removeEventListener('mouseup', stopResize);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
 }
