@@ -11,7 +11,7 @@ socketio = SocketIO(app)
 
 thread = None
 thread_lock = Lock()
-output_xdl = ""
+input_xdl = ""
 
 
 def translate(input_xdl):
@@ -27,29 +27,23 @@ def run_translation(input_xdl):
     global thread
     print("translation is running")
     with thread_lock:
-        thread = Thread(target=translate, args=(input_xdl))
+        thread = Thread(target=translate, args=(input_xdl,))
         thread.start()
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    global output_xdl
+    global input_xdl
 
     if request.method == 'POST':
         input_xdl = request.form['input_field']
-        socketio.emit("translate")
         run_translation(input_xdl)
-        return render_template("index.html", input_xdl=input_xdl)
 
-    return render_template("index.html", input_xdl="")
+    return render_template("index.html", input_xdl=input_xdl)
 
 @app.route('/device')
 def device():
     return render_template("device.html")
-
-@socketio.on('translate')
-def console():
-    run_translation()
 
 
 if __name__ == '__main__':
