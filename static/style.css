@@ -15,6 +15,7 @@ body {
     margin: 0;
     padding: 0;
     height: 100vh;
+    overflow: hidden;
     
 }
 
@@ -96,16 +97,16 @@ form input[type="submit"] {
     background-color: var(--text-box-palette);
     border-radius: 3px;
     color: var(--text-color);
+    padding: 5px;
 }
 
 #output_container pre code {
-    height: 90%;
+    height: 100%;
     background-color: var(--text-box-palette);
     border-radius: 3px;
     color: var(--text-color);
     font-size: 12px;
     overflow-y: scroll;
-    padding: 5px;
     white-space: pre-wrap;
     word-wrap: break-word;
 }
@@ -146,10 +147,9 @@ span.rectangle p a {
 #copy_button {
     position: absolute;
     border: none;
-    background: none;
     border-radius: 10px;
     padding: 5px;
-    right: 10px;
+    right: 20px;
     top: 10px;
 }
   
@@ -163,16 +163,21 @@ span.rectangle p a {
 }
   
 #messages_container {
+    position: absolute;
+    bottom: 0;
     background-color: var(--box-palette);
     border-radius: 5px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
-    padding: 20px;
-    margin-left: 20px;
-    width: 800px;
+    width: 100%;
+    padding-top: 10px;
+}
+
+#messages_container:hover {
+    cursor: ns-resize;
 }
 
 #messages_container p {
-    margin-bottom: 1%;
+    margin: 0 0 1% 1%;
 }
 
 #messages {
@@ -185,50 +190,3 @@ span.rectangle p a {
     overflow-y: scroll;
     padding: 5px;
 }
-
-.tab {
-    overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
-    display: flex;
-    justify-content: center;
-  }
-  
-  /* Style the buttons that are used to open the tab content */
-  .tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-  }
-  
-  /* Change background color of buttons on hover */
-  .tab button:hover {
-    background-color: #ddd;
-  }
-  
-  /* Create an active/current tablink class */
-  .tab button.active {
-    background-color: #ccc;
-  }
-  
-  /* Style the tab content */
-  .tabcontent {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    animation: fadeInOut 1s;
-  }
-
-  @keyframes fadeInOut {
-    0% {
-        opacity: 0.8;
-    }
-    
-    100% {
-        opacity: 1;
-    }
-  }

@@ -1,20 +1,24 @@
 <XDL>
   <Synthesis>  
       <Hardware>
-          <Component id="cup"/>
+          <Component id="beaker" />
       </Hardware>
   
       <Reagents>
-          <Reagent name="lime juice"/>
-          <Reagent name="tequila"/>
+          <Reagent name="coffee" />
+          <Reagent name="akvavit" />
+          <Reagent name="sugar" />
+          <Reagent name="lime juice" />
       </Reagents>
   
       <Procedure>
-          <Add vessel="cup" reagent="lime juice" amount="15 g"/>
-          <Add vessel="cup" reagent="tequila" amount="30 g"/>
-          <StartStir vessel="cup"/>
-          <Stir vessel="cup" time="20 s"/>
-          <StopStir vessel="cup"/>
+          <Add vessel="beaker" reagent="coffee" />
+          <Add vessel="beaker" reagent="akvavit" />
+          <Add vessel="beaker" reagent="sugar" />
+          <Add vessel="beaker" reagent="lime juice" />
+          <StartStir vessel="beaker" />
+          <Stir vessel="beaker" time="5" />
+          <StopStir vessel="beaker" />
       </Procedure>
   </Synthesis>
 </XDL>
