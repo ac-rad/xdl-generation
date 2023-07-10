@@ -1,0 +1,3 @@
+Flask==2.2.2
+Flask_SocketIO==5.3.4
+openai==0.27.8

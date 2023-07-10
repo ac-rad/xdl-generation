@@ -22,7 +22,7 @@ const createMessage = (msg) => {
             ${msg}
         </span>
     </div>
-    <br>
+    <lbr>
     `;
     messages.innerHTML += content;
 };
@@ -34,12 +34,16 @@ createXDLMessage = (msg) => {
             ${convertHTMLString(msg)}
         </pre>
     </div>
-    <br>`;
+    <lbr>`;
     messages.innerHTML += content;
+    
 };
 
+const output_xdl = document.getElementById("output_xdl")
+
 createCorrectXDLMessage = (msg) => {
-    document.getElementById("output_xdl").innerHTML = convertHTMLString(msg);
+    output_xdl.innerHTML = convertHTMLString(msg);
+    Prism.highlightAll();    
 };
 
 socketio.on("message", (msg) => {
@@ -50,6 +54,13 @@ socketio.on("message_xdl", (msg) => {
     createXDLMessage(msg);
 });
 
+const tab = document.getElementById("defaultOpen");
+
 socketio.on("correct_xdl", (msg) => {
     createCorrectXDLMessage(msg);
+    tab.click();
+    if (button.value != "Translate") {
+        button.value = "Translate";
+        button.disabled = false;
+    }
 });
