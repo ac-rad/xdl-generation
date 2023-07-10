@@ -15,7 +15,6 @@ body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    overflow: hidden;
     
 }
 
@@ -38,12 +37,16 @@ h1 {
     height: 70%;
 }
 
+div#input {
+    width: 30vw;
+}
+
 #form_container {
     background-color: var(--box-palette);
     border-radius: 5px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
-    padding: 20px;
-    width: 400px;
+    padding: 7% 7% 0 7%;
+    height: fit-content;
 }
 
 form {
@@ -59,7 +62,7 @@ form textarea {
     border-radius: 3px;
     border: none;
     color: var(--text-color);
-    min-height: 80%;
+    height: 50vh;
     resize: none;
     background-color: var(--text-box-palette);
     padding: 5px;
@@ -72,19 +75,40 @@ form input[type="submit"] {
     border: none;
     color: var(--background-palette);
     cursor: pointer;
-    height: 8%;
+    height: 5vh;
     margin: 2% 0 2% 0;
     width: 100%;
 }
 
+button#speech_to_text {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 40px;
+    height: fit-content;
+    border: none;
+    background: transparent;
+    
+}
+
+#speech_to_text img {
+    width: 100%;
+    height: auto;
+    filter: invert(87%) sepia(5%) saturate(26%) hue-rotate(314deg) brightness(50%) contrast(89%);
+}
+
+#speech_to_text img:hover {
+    cursor: pointer;
+}
+
 #output_container {
     background-color: var(--box-palette);
-    border-radius: 5px;
+    border-radius: 0 5px 5px 5px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
-    margin-left: 20px;
-    padding: 20px;
-    width: 400px;
+    padding: 5%;
+    height: 92% ;
     overflow-wrap: break-word;
+
 }
 
 #output_container p {
@@ -96,33 +120,34 @@ form input[type="submit"] {
     height: 90%;
     background-color: var(--text-box-palette);
     border-radius: 3px;
-    color: var(--text-color);
-    padding: 5px;
+    padding: 0;
 }
 
 #output_container pre code {
     height: 100%;
     background-color: var(--text-box-palette);
     border-radius: 3px;
-    color: var(--text-color);
     font-size: 12px;
     overflow-y: scroll;
     white-space: pre-wrap;
     word-wrap: break-word;
+    font-size: 0.7rem;
 }
 
 span.rectangle {
     background-color: var(--main-pink);
+    font-size: 0.75em;
     border-radius: 20px;
     display: inline-block;
     width: auto;
     height: auto;
     padding: 0 20px 0 20px;
     position: fixed;
-    bottom: 20px;
     right: 20px;
+    bottom: 20px;
     text-indent: 7px;
     color: var(--background-palette);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
   }
 
 span.rectangle:hover {
@@ -163,30 +188,101 @@ span.rectangle p a {
 }
   
 #messages_container {
-    position: absolute;
-    bottom: 0;
     background-color: var(--box-palette);
     border-radius: 5px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
-    width: 100%;
-    padding-top: 10px;
-}
-
-#messages_container:hover {
-    cursor: ns-resize;
+    height: 92%;
+    padding: 5%;
 }
 
 #messages_container p {
-    margin: 0 0 1% 1%;
+    margin: 0 0 5% 0;
 }
 
 #messages {
     border-radius: 3px;
     border: none;
     color: var(--text-color);
-    height: 87%;
+    height: 87.6%;
     resize: none;
     background-color: var(--text-box-palette);
     overflow-y: scroll;
     padding: 5px;
+}
+
+.tab-container {
+    width: 30vw;
+    margin-left: 2%;
+}
+
+.tab {
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+    width: fit-content;
+    background-color: #f1f1f1;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+  }
+  
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    color: var(--text-color)
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    height: 90%;
+}
+
+.text > * {
+    margin: 0;
+}
+
+.text {
+    margin-top: 5px;
+}
+
+
+@media screen and (max-width: 750px) {
+    .tab-container {
+        width: 70vw;
+    }
+
+    #form_container {
+        width: 92%;
+    }
+
+    div#input {
+        width: 100%;
+    }
+
+    
+}
+
+@media screen and (max-width: 550px) {
+
+    .tab button {
+        padding: 7px 6px;
+    }
+
+    body {
+        height: 110vh;
+    }
 }

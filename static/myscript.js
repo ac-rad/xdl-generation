@@ -1,10 +1,3 @@
-if (window.innerWidth < 701) {
-  window.location.href = 'device';
-  console.log("test1")
-}
-console.log("test2", window.innerWidth)
-
-
 async function getConfig() {
   try {
     const response = await fetch('static/config.json');
@@ -21,13 +14,30 @@ async function getConfig() {
 getConfig();
 
 const button = document.getElementById("submit_button");
-button.addEventListener("click", (event) => {
-  button.value = "Loading...";
-});
-
+const tab2 = document.getElementById("secondaryOpen");
+if (button.value == "Translate") {
+  button.addEventListener("click", (event) => {
+    button.value = "Running Translation...";
+    tab2.click();
+    output_xdl.innerHTML = "";
+  });
+  
+}
 
 
 function copyClipboard() {
   const copyText = document.getElementsByTagName("code")[0].innerText;
   navigator.clipboard.writeText(copyText);
+}
+
+
+const formContainer = document.getElementById('input');
+const tabContainer = document.querySelector('.tab-container');
+
+if (window.innerWidth < 750) {
+  document.getElementById("tertiaryOpen").hidden = false;
+
+  tabContainer.insertBefore(formContainer, tabContainer.children[1]);
+} else {
+  formContainer.className = "";
 }
