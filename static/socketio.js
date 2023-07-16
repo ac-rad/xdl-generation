@@ -14,8 +14,6 @@ convertHTMLString = (msg) => {
 }
 
 const createMessage = (msg) => {
-    console.log(msg)
-    
     const content = `
     <div class="text">
         <span style="font-size: 0.7rem;">
