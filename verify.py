@@ -62,15 +62,16 @@ optional_properties = {
     'RunColumn': ['from_vessel', 'to_vessel', 'column'],
 }
 
-reagent_properties = ["name", "inchi", "cas", "role", "preserve", "use_for_cleaning", "clean_with", "stir", "temp", "atmosphere", "purity"]
+reagent_properties = ["name", "inchi", "cas", "role", "preserve",
+                      "use_for_cleaning", "clean_with", "stir", "temp", "atmosphere", "purity"]
 
 
 def parse_hardware(root, error_list, available_hardware):
     hardware_list = []
     tag_lst = list(root.iter('Hardware'))
     tags = []
-    strs=[]
-    error=""
+    strs = []
+    error = ""
     for item in tag_lst:
         tags += [elem.tag for elem in item.iter()]
         strs += [ET.tostring(item, encoding='unicode', method='xml').strip()]
@@ -83,8 +84,10 @@ def parse_hardware(root, error_list, available_hardware):
                 if component.attrib['id'] not in available_hardware:
                     wrong_hardware = component.attrib['id']
                     error_str = f"{wrong_hardware} is not defined in the given Hardware list. The available Hardware is: {', '.join(available_hardware)[:-2]}."
-                    step_str = ET.tostring(component, encoding='unicode', method='xml').strip()
-                    error_list.append({"step": "Hardware definition", "errors": [error_str]})
+                    step_str = ET.tostring(
+                        component, encoding='unicode', method='xml').strip()
+                    error_list.append(
+                        {"step": "Hardware definition", "errors": [error_str]})
             hardware_list.append(component.attrib['id'])
     return hardware_list, error_list, (error, strs)
 
@@ -97,7 +100,8 @@ def parse_reagents(root, error_list, available_reagents):
                 if reagent.attrib['name'] not in available_reagents:
                     wrong_reagent = reagent.attrib['name']
                     error_str = f"{wrong_reagent} is not defined in the given Reagents list. The available reagents are: {', '.join(available_reagents)[:-2]}."
-                    error_list.append({"step": "Reagents definition", "errors": [error_str]})
+                    error_list.append(
+                        {"step": "Reagents definition", "errors": [error_str]})
             errors = []
             if 'name' not in reagent.attrib:
                 errors.append(f"You must have 'name' property in Reagent")
@@ -105,11 +109,14 @@ def parse_reagents(root, error_list, available_reagents):
                 reagent_list.append(reagent.attrib['name'])
             for attr in reagent.attrib:
                 if attr not in reagent_properties:
-                    errors.append(f"The {attr} property in Reagent is not allowed")
+                    errors.append(
+                        f"The {attr} property in Reagent is not allowed")
             if errors:
-                step_str = ET.tostring(reagent, encoding='unicode', method='xml').strip()
+                step_str = ET.tostring(
+                    reagent, encoding='unicode', method='xml').strip()
                 error_list.append({"step": step_str, "errors": errors})
     return reagent_list
+
 
 def verify_procedure(root, hardware, reagents, error_list):
     for procedure in root.iter('Procedure'):
@@ -126,11 +133,12 @@ def verify_procedure(root, hardware, reagents, error_list):
                             f"You must have '{prop}' property when doing '{step.tag}'")
                 for attr in step.attrib:
                     if attr not in optional_properties[action]:
-                        allowed_actions = list(set(optional_properties[action] + mandatory_properties[action]))
+                        allowed_actions = list(
+                            set(optional_properties[action] + mandatory_properties[action]))
                         errors.append(
-                                f"The {attr} property in the {action} procedure is not allowed. The allowed properties are: {', '.join(allowed_actions)}.")
+                            f"The {attr} property in the {action} procedure is not allowed. The allowed properties are: {', '.join(allowed_actions)}.")
                 # Check vessels are defined in Hardware
-                #print(error_list)
+                # print(error_list)
                 if len(error_list) == 0 or "Hardware" not in error_list[0]["step"].lower():
                     for attr in ['vessel', 'from_vessel', 'to_vessel']:
                         if attr in step.attrib and step.attrib[attr] not in hardware:
@@ -144,32 +152,37 @@ def verify_procedure(root, hardware, reagents, error_list):
                 # Check if there is any text content between tags
                 for elem in step.iter():
                     if elem.text and elem.text.strip() and elem != step:
-                        errors.append("There should be no text content between tags.")
+                        errors.append(
+                            "There should be no text content between tags.")
 
             if errors:
-                step_str = ET.tostring(step, encoding='unicode', method='xml').strip()
+                step_str = ET.tostring(
+                    step, encoding='unicode', method='xml').strip()
                 step_str = ' '.join(step_str.split())
                 error_list.append({"step": step_str, "errors": errors})
     return error_list
-
 
 
 def verify_synthesis(root, available_hardware, available_reagents):
     error_list = []
     for element in root.iter():
         if element.text and element.text.strip():
-            errors = [f"Tags should not have text content: '{element.text.strip()}'"]
-            step_str = ET.tostring(element, encoding='unicode', method='xml').strip()
+            errors = [
+                f"Tags should not have text content: '{element.text.strip()}'"]
+            step_str = ET.tostring(
+                element, encoding='unicode', method='xml').strip()
             error_list.append({"step": step_str, "errors": errors})
 
-    hardware, hardware_list_error_list, (errors, strs) = parse_hardware(root, error_list, available_hardware)
+    hardware, hardware_list_error_list, (errors, strs) = parse_hardware(
+        root, error_list, available_hardware)
     if errors != "":
         error_list.append({"step": "Hardware definition", "errors": [errors]})
 
-        #return error_list
-        #return [{"step": "Hardware definition", "errors": errors}]
+        # return error_list
+        # return [{"step": "Hardware definition", "errors": errors}]
     reagents = parse_reagents(root, error_list, available_reagents)
     return verify_procedure(root, hardware, reagents, error_list)
+
 
 def verify_xdl(xdl, available_hardware=None, available_reagents=None):
     """
