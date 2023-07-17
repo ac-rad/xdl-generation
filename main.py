@@ -26,8 +26,9 @@ def prompt(instructions, description, max_tokens):
 def translate(input_xdl):
     """Function that translates the input XDL"""
 
-    # Get API key
-    openai.api_key = os.environ["OPENAI_API_KEY"]
+     # Get API key
+    with open("config.json", "r") as f:
+        openai.api_key = json.load(f)["OPENAI_API_KEY"]
 
     # Get XDL description
     with open("XDL_description.txt", "r") as f:
