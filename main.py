@@ -1,10 +1,12 @@
+import json
+import os
+from threading import Lock, Thread
+
+import openai
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
-import os
-from threading import Thread, Lock
+
 from verify import verify_xdl
-import json
-import openai
 
 
 def prompt(instructions, description, max_tokens):
@@ -20,16 +22,17 @@ def prompt(instructions, description, max_tokens):
     )
     return response["choices"][0]["text"]
 
+
 def translate(input_xdl):
     """Function that translates the input XDL"""
 
-    # Get API key
-    with open("static/config.json", "r") as f:
+     # Get API key
+    with open("config.json", "r") as f:
         openai.api_key = json.load(f)["OPENAI_API_KEY"]
 
     # Get XDL description
     with open("XDL_description.txt", "r") as f:
-        XDL_description =  f.read()
+        XDL_description = f.read()
 
     correct_syntax = False
     errors = {}
@@ -41,7 +44,8 @@ def translate(input_xdl):
         try:
             gpt3_output = prompt(input_xdl, XDL_description, 1000)
         except:
-            socketio.emit("message", "Error. Too many tokens required or invalid API key.")
+            socketio.emit(
+                "message", "Error. Too many tokens required or invalid API key.")
             break
 
         socketio.emit("message", "gpt3_output:::")
@@ -58,7 +62,7 @@ def translate(input_xdl):
             if not compile_correct:
                 correct_syntax = True
                 break
-            else: 
+            else:
                 error_list = set()
                 for item in compile_correct:
                     for error in item["errors"]:
@@ -66,7 +70,7 @@ def translate(input_xdl):
                 error_message = f"\n{gpt3_output}\nThis XDL was not correct. These were the errors\n{os.linesep.join(list(error_list))}\nPlease fix the errors."
                 input_xdl = f"{prev_input_xdl} {error_message}"
 
-        else: 
+        else:
             error_message = f"\n{gpt3_output}\nThis XDL was not correct. XDL should start with <XDL>. Please fix the errors."
             input_xdl = f"{prev_input_xdl} {error_message}"
 
@@ -75,7 +79,7 @@ def translate(input_xdl):
             xdl = gpt3_output
         else:
             xdl = "The correct XDL could not be generated."
-    
+
     except Exception as e:
         socketio.emit("message", f"Error: {e}")
 
@@ -95,6 +99,7 @@ thread = None
 thread_lock = Lock()
 input_xdl = ""
 
+
 def run_translation(input_xdl):
     """Function that runs the translation in a separate thread."""
     global thread
@@ -102,14 +107,16 @@ def run_translation(input_xdl):
         thread = Thread(target=translate, args=(input_xdl,))
         thread.start()
 
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     """Function that renders the index page."""
     global input_xdl
-    if request.method == "POST":              
+    if request.method == "POST":
         input_xdl = request.form["input_field"]
         run_translation(input_xdl)
 
     return render_template("index.html", input_xdl=input_xdl)
 
-socketio.run(app, debug=True, host="0.0.0.0", port=3000)
+
+socketio.run(app, port=3000)
