@@ -21,7 +21,7 @@ python main.py
 3. Open `http://127.0.0.1:3000/` in your favorite browser.
 
 ## Usage
-![](/images/screenshot.png)
+![](./images/screenshot.png)
 
 1. Type your experiment in the left column.
 2. Click "Translate" button.
