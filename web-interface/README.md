@@ -27,3 +27,4 @@ python main.py
 2. Click "Translate" button.
 3. You will see an execution log while translation
 4. Final output XDL will be automatically shown after translation is done.
+5. If you click the microphone button, your browser will start recording speech and transcribe it to text.
