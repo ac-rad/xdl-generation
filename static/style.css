@@ -71,13 +71,21 @@ form textarea {
 
 form input[type="submit"] {
     background-color: var(--main-pink);
-    border-radius: 3px;
+    border-radius: 5px;
     border: none;
     color: var(--background-palette);
     cursor: pointer;
     height: 5vh;
     margin: 2% 0 2% 0;
     width: 100%;
+}
+
+form select {
+    background-color: var(--main-pink);
+    border: 2px solid var(--main-pink);
+    border-radius: 5px;
+    color: var(--background-palette);
+    height: 5vh;
 }
 
 button#speech_to_text {
@@ -258,6 +266,7 @@ span.rectangle p a {
 .text {
     margin-top: 5px;
 }
+
 
 
 @media screen and (max-width: 750px) {
