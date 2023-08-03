@@ -27,11 +27,19 @@
                         </button>
                         <textarea id="input_field" name="input_field" placeholder="e.g. Pour water into a cup and stir.">{{input_xdl}}</textarea>
                     </div>
-                    <input id="submit_button" type="submit" name="submit_button" value="Translate" onclick="document.getElementById('log').click()"></input>
-                </form>
+                    <div style="display: flex; gap: 5%; align-items: center; justify-content: center;">
+                        <input id="submit_button" type="submit" name="submit_button" value="Translate" onclick="document.getElementById('log').click()">
+                        <select name="gptVersion" id="gptVersion">
+                            <option value="text-davinci-003">Text-Davinci-003</option>
+                            <option value="gpt-3.5-turbo">GPT-3.5-turbo</option>
+                            <option value="gpt-4">GPT-4</option>
+                        </select>
+                    </form>
+                    </div>
                 <iframe name="response_frame" style="display: none;"></iframe>
             </div>
-        </div>   
+        </div>  
+       
             <div class="tab-container">
             <div class="tab">
                 <button class="tablinks" id="tertiaryOpen" onclick="openTab(event, 'input')" hidden>Input instructions</button>
@@ -55,6 +63,7 @@
         <span class="rectangle" onclick="window.open('https://ac-rad.github.io/clairify', '_blank')">
             <p>CLAIRify website</p>
         </span>
+        
         
     </div>
     
