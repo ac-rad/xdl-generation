@@ -1,4 +1,8 @@
 # CLAIRify
+
+## Open in Google Colab
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1I0DDpJeuLxJmE5fxCbgXqtt8KpU-SGk0#scrollTo=Oq7AMwiBLPWv)
 ## Errors are Useful Prompts: Instruction Guided Task Programming with Verifier-Assisted Iterative Prompting
 
 - Project website: https://ac-rad.github.io/clairify/
