@@ -18,7 +18,7 @@ XDL File Stub:
 </XDL>
 
 Hardware:
-Each individual reagent, unless otherwise stated should be contained within their own component.
+Each individual reagent, unless otherwise stated should be contained within their own vessels.
 
 (format is(Property, Type, Description))
 

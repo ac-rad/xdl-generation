@@ -1,0 +1,11 @@
+Note: this procedure uses 2-tert-butylphenol as an example. Reaction was also done with 2-iso-propylphenol and o-cresol using 1/3 amounts. Data given below. 
+
+Diphenylsulfide (0.09 ml, 0.10 g, 0.54 mmol) and AlCl3 (0.10 g, 0.75 mmol) were dissolved in 2-tert-butylphenol (15.35 ml, 15.02 g, 0.1 mol) in a three neck round bottom flask, under nitrogen flow. The flask was fitted with a 1M NaOH scrubber. The solution was cooled in an ice bath, and sulfuryl chloride (7.97 ml, 13.4 g, 0.1 mol) was added dropwise. The solution became yellow, then red, and was allowed to stir at room temperature overnight. The solution was concentrated and purified by vacuum distillation using a 12 cm Vigreux column. Fraction results summarised in data section.
+All products were clear oils. F2 (a mixture) was further purified by column chromatography (hexane/diethyl ether 20:1).
+Overall yield of ortho isomer = 7.49 g, 40 %; para isomer = 9.4 g, 51 %.
+
+2-iso-propylphenol
+Product was purified by Kugelrohr at 50°C to give white crystals (at -78°C), or a clear oil at room temperature. Yield of para isomer = 3.5 g, 55 %
+
+2-methylphenol
+Product was purified by Kugelrohr at 50°C, to give an opaque oil, which was crystallised in heptane to give white needles. Yield of para isomer = 3.5 g, 65 %
