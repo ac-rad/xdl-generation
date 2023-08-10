@@ -1,0 +1,3 @@
+p-Toluenesulfonyl bromide (6eq, 0.6mmol, 142mg) and AIBN (6eq, 0.6mmol, 98mg) were pre-dissolved in dry toluene (1ml) and added to polystyrene resin-linked 5-hexenoic acid  (1eq, 0.1mmol, 0.72mmol/g, 139mg).  The reaction was performed in a 3ml ReactivialTM at 65-70°C with stirring for 20h and allowed to cool to room temperature.  The resin was then transferred to a filter tube and washed with DCM, DMF, THF 6 x 10mL each; 3 x 10mL each of DMSO, glacial acetic acid, 20% DIPEA/DMF. Final washes in THF.
+Cleaved with 3ml 95% TFA(aq) for 2.5 hours.  Washed through with DCM and THF and dried under stream of nitrogen and then overnight in vacuum oven at 30°C.
+Yield: 32.5mg, 93%, colourless oil.

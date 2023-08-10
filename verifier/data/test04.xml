@@ -1,0 +1,18 @@
+<Synthesis>
+  <Hardware>
+    <Component id="beaker" type="beaker"/>
+    <Component id="beaker2" type="beaker"/>
+  </Hardware>
+  
+  <Reagents>
+    <Reagent name="water"/>
+    <Reagent name="sugar"/>
+  </Reagents>
+  
+  <Procedure>
+    <Add vesel="beaker" reagent="water" amount="10 mL"/>
+    <Add vessel="beaker" reagent="sugar" amount="10 g"/>
+    <Stir vessel="beaker" time="10 s"/>
+    <Transfer from_vessel="beaker" to_vessel="beaker2"/>
+  </Procedure>
+</Synthesis>

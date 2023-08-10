@@ -1,0 +1,11 @@
+Activation of Zinc: Zinc (20 g) was stirred in 20% HCl for 15 mins. After filtration it was washed with  water (50 ml) and acetone (50 ml) and dried in vacuo.
+
+Zinc/Copper Couple: A stirred suspension of activated zinc (10 g) in water (40 ml) was degassed by bubbling N2 through it for 1 hr. To this was then added CuSO4.5H2O (1.18 g). The resulting black suspension was stirred for an extra 3 hrs with bubbling N2. The Zn-Cu couple was collected on a sintered funnel and washed with water (100 ml) and acetone (100 ml) and dried in vacuo. The couple was stored in a dessicator over silica gel.
+
+2,2-dichloro-3-phenylcyclobutanone: To a dry 2 necked 50 ml RBF under Argon was added styrene (1.1 ml, 9.6 mmol), Zn-Cu Couple (0.69 g, 10.5 mmol) and anhydrous Et2O (20 ml). To this was added a solution of Cl3CCOCl (1.1 ml, 10.0 mmol) and POCl3 (0.92 ml, 10.0 mmol) in Et2O (20 ml) over 1 hr. The resulting mixture was then refluxed for 4 hrs. The suspension was then filtered through a pad of celite which was subsequently washed with bench Et2O (50 ml). The organic solution was then subsequently washed with water (100 ml), saturated NaHCO3 (50 ml), brine (50 ml) and water (50 ml). Separation from the aqueous phase and removal of all volatile organics gave a yellow oil that was purified by trap-to-trap distillation (90°C, 10-3)to give a white crystalline solid.
+Yield 1.6 g, 77%.
+
+3-phenylcyclobutanone: The halogenated product above was heated in glacial acetic acid (30 ml) for 2 hrs. Standard aqueous work-up and purification by trap-to-trap distillation (85°C, 10-3) gave a clear colourless oil.
+
+
+

@@ -1,0 +1,7 @@
+t-Butyl hydroperoxide solution
+MgSO4 (8 g) was added to a mixture of t-butyl hydroperoxide (10 g, 70%, 78 mmol) and CH2Cl2 (40 cm3) and the mixture stirred for 10 m. The drying agent was filtered and washed with CH2Cl2 (10 cm3) to give a solution of anhydrous t-butyl hydroperoxide.
+ 
+Perchloric acid solution
+A mixture of perchloric acid (2.0 g, 65%, 13 mmol) and CH2Cl2 (20 cm3) was magnetically stirred and cooled in ice. Acetic anhydride was slowly added until a homogeneous solution formed.
+ 
+To mercury(II) acetate (6.4 g, 20 mmol) was added the t-butyl hydroperoxide solution followed by the perchloric acid solution. With magnetic stirring, cyclohexene (1.8 g, 22 mmol) dissolved in CH2Cl2 (10 cm3) was added. Most of the mercury(II) acetate rapidly dissolved except for some lumps which dissolved after 15 m. Water (100 cm3) was added and the organic phase separated and stirred with a solution of potassium bromide (5 g) in water (15 cm3) for 0.5 h. Water (100 cm3) was added, the organic phase separated, dried (MgSO4), and evaporated to give a white solid (9.9 g) after drying at 0.01 mm. Crystallisation from petrol (40/60, 75 cm3) gave bromo-(2-t-butylperoxycyclohexyl)mercury as white needles (7.32 g, 81%).

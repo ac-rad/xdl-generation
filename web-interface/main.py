@@ -54,8 +54,6 @@ def translate(input_xdl, model):
     errors = {}
     prev_input_xdl = input_xdl
 
-    print("\033[32m" + "Model: " + model + "\033[0m")
-
     # Start 10 iteration for loop to limit token usage
     for step in range(10):
         socketio.emit("message", f"Convert to XDL: {input_xdl}")
@@ -131,7 +129,9 @@ def index():
     global input_xdl
     if request.method == "POST":
         input_xdl = request.form["input_field"]
-        run_translation(input_xdl, request.form["gptVersion"])
+        model = request.form["gptVersion"]
+        socketio.emit("message", f"Model: {model}")
+        run_translation(input_xdl, model)
 
     return render_template("index.html", input_xdl=input_xdl)
 
