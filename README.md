@@ -6,6 +6,7 @@
 This repository contains
 - The source code for CLAIRify
 - Dataset (Chem-RnD and Chem-EDU)
+- CLAIRify web interface
 
 ### Requirement
 - OpenAI Python Library

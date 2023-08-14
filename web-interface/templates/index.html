@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CLAIRify</title>
+    <link rel="stylesheet" href="static/prism/prism.css">
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&amp;display=swap" rel="stylesheet">
+    <link rel="icon" href="static/img/logo.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>    
+</head>
+<body>
+    <div id="header">
+        <h1>CLAIRify</h1>
+        <p>Translate natural language to XDL.</p>
+        
+    </div>
+    <div id="content">     
+        <div id="input" class="tabcontent">
+            <div id="form_container">
+                <form id="input_form" method="POST" target="response_frame">
+                    <label for="input_field">Enter instructions to be translated to XDL:</label>
+                    <div style="height: 80%; margin-bottom: 1.5vh; position: relative;">
+                        <button type="button" id="speech_to_text">
+                            <img src="static\img\microphone-342.svg">
+                        </button>
+                        <textarea id="input_field" name="input_field" placeholder="e.g. Pour water into a cup and stir.">{{input_xdl}}</textarea>
+                    </div>
+                    <div style="display: flex; gap: 5%; align-items: center; justify-content: center;">
+                        <input id="submit_button" type="submit" name="submit_button" value="Translate" onclick="document.getElementById('log').click()">
+                        <select name="gptVersion" id="gptVersion">
+                            <option value="text-davinci-003">Text-Davinci-003</option>
+                            <option value="gpt-3.5-turbo">GPT-3.5-turbo</option>
+                            <option value="gpt-4">GPT-4</option>
+                        </select>
+                    </form>
+                    </div>
+                <iframe name="response_frame" style="display: none;"></iframe>
+            </div>
+        </div>  
+       
+            <div class="tab-container">
+            <div class="tab">
+                <button class="tablinks" id="tertiaryOpen" onclick="openTab(event, 'input')" hidden>Input instructions</button>
+                <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'output')">Final Output</button>
+                <button class="tablinks" id="secondaryOpen" onclick="openTab(event, 'log')">Execution Log</button>
+              </div>
+            <div id="output" class="tabcontent">
+                <div id="output_container">
+                    <p>The translated text is:</p>
+                    <pre id="output_container_pre"><button id="copy_button" onclick="copyClipboard()"><svg preserveAspectRatio="xMidYMin" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="css-492dz9" style="--size: 16px; --rotate: 0deg;"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.05546 2.05546C9.57118 1.53973 10.2707 1.25 11 1.25H20C20.7293 1.25 21.4288 1.53973 21.9445 2.05546C22.4603 2.57118 22.75 3.27065 22.75 4V13C22.75 13.7293 22.4603 14.4288 21.9445 14.9445C21.4288 15.4603 20.7293 15.75 20 15.75H19C18.5858 15.75 18.25 15.4142 18.25 15C18.25 14.5858 18.5858 14.25 19 14.25H20C20.3315 14.25 20.6495 14.1183 20.8839 13.8839C21.1183 13.6495 21.25 13.3315 21.25 13V4C21.25 3.66848 21.1183 3.35054 20.8839 3.11612C20.6495 2.8817 20.3315 2.75 20 2.75H11C10.6685 2.75 10.3505 2.8817 10.1161 3.11612C9.8817 3.35054 9.75 3.66848 9.75 4V5C9.75 5.41421 9.41421 5.75 9 5.75C8.58579 5.75 8.25 5.41421 8.25 5V4C8.25 3.27065 8.53973 2.57118 9.05546 2.05546ZM1.25 11C1.25 9.48122 2.48122 8.25 4 8.25H13C14.5188 8.25 15.75 9.48122 15.75 11V20C15.75 21.5188 14.5188 22.75 13 22.75H4C2.48122 22.75 1.25 21.5188 1.25 20V11ZM4 9.75C3.30964 9.75 2.75 10.3096 2.75 11V20C2.75 20.6904 3.30964 21.25 4 21.25H13C13.6904 21.25 14.25 20.6904 14.25 20V11C14.25 10.3096 13.6904 9.75 13 9.75H4Z"></path></svg></button><code id="output_xdl" class="language-markup"></code></pre>
+                </div>
+            </div>
+            
+            <div id="log" class="tabcontent">
+                <div id="messages_container">
+                    <p>Execution Log:</p>
+                    <div id="messages"></div>
+                </div>
+            </div>
+        </div>
+        <span class="rectangle" onclick="window.open('https://ac-rad.github.io/clairify', '_blank')">
+            <p>CLAIRify website</p>
+        </span>
+        
+        
+    </div>
+    
+    <script src="static/prism/prism.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/myscript.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/tab.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/socketio.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/speechtotext.js" type="text/javascript" charset="utf-8"></script>
+  </body>
+</html>
