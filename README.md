@@ -1,8 +1,4 @@
 # CLAIRify
-
-## Open in Google Colab
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1I0DDpJeuLxJmE5fxCbgXqtt8KpU-SGk0#scrollTo=Oq7AMwiBLPWv)
 ## Errors are Useful Prompts: Instruction Guided Task Programming with Verifier-Assisted Iterative Prompting
 
 - Project website: https://ac-rad.github.io/clairify/
@@ -11,6 +7,11 @@ This repository contains
 - The source code for CLAIRify
 - Dataset (Chem-RnD and Chem-EDU)
 - CLAIRify web interface
+
+### Tutorial
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/110KloKECMfyp2WYa6F4OHwqgy8dll2JZ?usp=sharing)
+
+A tutorial on CLAIRify is provided in [Jupyter notebook](https://github.com/ac-rad/xdl-generation/blob/master/tutorial.ipynb) and [Google Colaboratory](https://colab.research.google.com/drive/110KloKECMfyp2WYa6F4OHwqgy8dll2JZ?usp=sharing).
 
 ### Requirement
 - OpenAI Python Library
