@@ -38,11 +38,14 @@ def prompt(instructions, description, max_tokens, model="text-davinci-003"):
 def translate(input_xdl, model):
     """Function that translates the input XDL"""
 
-    openai.api_key = os.environ["OPENAI_API_KEY"]
-    openai.organization = os.environ["OPENAI_ORGANIZATION_ID"]
+    if "OPENAI_API_KEY" in os.environ:
+        openai.api_key = os.environ["OPENAI_API_KEY"]
+    if "OPENAI_ORGANIZATION_ID" in os.environ:
+        openai.organization = os.environ["OPENAI_ORGANIZATION_ID"]
     
     # Get XDL description
-    with open("XDL_description.txt", "r") as f:
+    filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), "XDL_description.txt")
+    with open(filename, "r") as f:
         XDL_description = f.read()
 
     correct_syntax = False
