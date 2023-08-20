@@ -35,10 +35,11 @@ def prompt(instructions, description, max_tokens, model="text-davinci-003"):
 
 
 
-def translate(input_xdl, model):
+def translate(input_xdl, model, verbose=False):
     """Function that translates the input XDL"""
 
-    print("Start translating the following input into XDL:", input_xdl)
+    if verbose:
+        print("Start translating the following input into XDL:", input_xdl)
 
     if "OPENAI_API_KEY" in os.environ:
         openai.api_key = os.environ["OPENAI_API_KEY"]
@@ -56,10 +57,11 @@ def translate(input_xdl, model):
 
     # Start 10 iteration for loop to limit token usage
     for step in range(10):
-        print("# Step {}".format(step))
-        print("Instruction to LLM ---------------------------")
-        print(f"Convert to XDL: {input_xdl}")
-        print("----------------------------------------------\n")
+        if verbose:
+            print("# Step {}".format(step))
+            print("Instruction to LLM ---------------------------")
+            print(f"Convert to XDL: {input_xdl}")
+            print("----------------------------------------------\n")
         try:
             gpt3_output = prompt(input_xdl, XDL_description, 1000, model)
         except:
@@ -68,9 +70,10 @@ def translate(input_xdl, model):
 
         if "<XDL>" in gpt3_output:
             gpt3_output = gpt3_output[gpt3_output.index("<XDL>"):gpt3_output.rindex("</XDL>") + 6]
-            print("Output of LLM --------------------------------")
-            print(gpt3_output)
-            print("----------------------------------------------\n")
+            if verbose:
+                print("Output of LLM --------------------------------")
+                print(gpt3_output)
+                print("----------------------------------------------\n")
             compile_correct = verify_xdl(gpt3_output)
             errors[step] = {
                 "errors": compile_correct,
@@ -101,5 +104,6 @@ def translate(input_xdl, model):
     except Exception as e:
         print(f"Error: {e}")
 
-    print(f"Final syntax validity: {correct_syntax}")
+    if verbose:
+        print(f"Final syntax validity: {correct_syntax}\n")
     return xdl
