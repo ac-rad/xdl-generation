@@ -9,9 +9,9 @@ This repository contains
 - CLAIRify web interface
 
 ### Tutorial
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/110KloKECMfyp2WYa6F4OHwqgy8dll2JZ?usp=sharing)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ac-rad/xdl-generation/blob/master/tutorial.ipynb)
 
-A tutorial on CLAIRify is provided in [Jupyter notebook](https://github.com/ac-rad/xdl-generation/blob/master/tutorial.ipynb) and [Google Colaboratory](https://colab.research.google.com/drive/110KloKECMfyp2WYa6F4OHwqgy8dll2JZ?usp=sharing).
+A tutorial on CLAIRify is provided as [Jupyter Notebook](https://github.com/ac-rad/xdl-generation/blob/master/tutorial.ipynb).
 
 ### Requirement
 - OpenAI Python Library
