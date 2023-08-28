@@ -1,0 +1,107 @@
+XDL files will follow XML syntax and consist of three mandatory sections: Hardware, where virtual vessels that the reaction mixture can reside in are declared. Reagents, where all reagents that are used in the procedure are declared, and Procedure, where the synthetic actions involved in the procedure are linearly declared.
+
+XDL File Stub:
+<XDL>
+  <Synthesis>  
+      <Hardware>
+          <!-- ... -->
+      </Hardware>
+  
+      <Reagents>
+          <!-- ... -->
+      </Reagents>
+  
+      <Procedure>
+          <!-- ... -->
+      </Procedure>
+  </Synthesis>
+</XDL>
+
+Hardware:
+Each individual reagent, unless otherwise stated should be contained within their own component.
+
+(format is(Property, Type, Description))
+
+id, str, Name of hardware
+
+Reagents:
+The Reagents section contains Reagent elements with the props below.
+Any reagents which were combined before the experiment should be combined as one reagent before the procedure. (i.e. 'lime juice mixed with sugar' = <Reagent name='lime juice mixed with sugar')
+
+Reagent:
+Reagent used by procedure.
+
+(format is(Property, Type, Description))
+
+name, str, Name of reagent
+
+Procedure:
+All steps included in the Full Steps Specification may be given within the Procedure block of a XDL file. Additionally, the Procedure block may be, but does not have to be, divided up into Prep, Reaction, Workup and Purification blocks, each of which can contain any of the steps in the specification.
+
+
+Here is a list of tags that can be used in this language:
+Liquid Handling: Add, Separate, Transfer, 
+Stirring: StartStir, Stir, StopStir,
+Temperature Control: HeatChill, HeatChillToTemp, StartHeatChill, StopHeatChill
+Inert Gas: EvacuateAndRefill, Purge, StartPurge, StopPurge
+Filtration: Filter, FilterThrough, WashSolid
+Special: Wait, Repeat,
+Other: CleanVessel, Crystallize, Dissolve, Dry, Evaporate, Irradiate, Precipitate, ResetHandling, RunColumn
+
+Steps:
+Liquid Handling:
+Add liquid or solid reagent. Reagent identity (ie liquid or solid) is determined by the solid property of a reagent in the Reagent section.
+
+The quantity of the reagent can be specified using either volume (liquid units) or amount (all accepted units e.g. ‘g’, ‘mL’, ‘eq’, ‘mmol’).
+
+format(Property	Type	Description)
+vessel	vessel	Vessel to add reagent to.
+reagent	reagent	Reagent to add.
+
+Separate:
+Perform separation.
+format(Property Type Description)
+Property	Type	Description
+purpose	str	'wash' or 'extract'. 'wash' means that product phase will not be the added solvent phase, 'extract' means product phase will be the added solvent phase. If no solvent is added just use 'extract'.
+product_phase	str	'top' or 'bottom'. Phase that product will be in.
+from_vessel	vessel	Contents of from_vessel are transferred to separation_vessel and separation is performed.
+separation_vessel	vessel	Vessel in which separation of phases will be carried out.
+to_vessel	vessel	Vessel to send product phase to.
+
+
+Transfer:
+Transfer liquid from one vessel to another.
+
+The quantity to transfer can be specified using either volume (liquid units) or amount (all accepted units e.g. ‘g’, ‘mL’, ‘eq’, ‘mmol’).
+
+format(Property	Type	Description)
+from_vessel	vessel	Vessel to transfer liquid from.
+to_vessel	vessel	Vessel to transfer liquid to.
+
+
+Stirring:
+StartStir:
+Start stirring vessel.
+format(Property	Type	Description)
+vessel	vessel	Vessel to start stirring.
+
+
+Stir:
+Stir vessel for given time.
+format(Property	Type	Description)
+vessel	vessel	Vessel to stir.
+time	float	Time to stir vessel for.
+
+
+StopStir:
+Stop stirring given vessel.
+format(Property	Type	Description)
+vessel	vessel	Vessel to stop stirring.
+
+Temperature Control:
+HeatChill:
+Heat or chill vessel to given temp for given time.
+format(Property	Type	Description)
+vessel	vessel	Vessel to heat or chill.
+temp	float	Temperature to heat or chill vessel to.
+time	float	Time to heat or chill vessel for.

@@ -1,0 +1,4 @@
+To a solution of the vinylsulfonate (250 mg, 0.91 mmol) in dry toluene (15 mL) was added AIBN (10
+mg), and 2-iodo-2-methylpropane(3.0 eq., 0.50 g, 2.7 mmol) and the solution heated to 100 °C. Tributyltin hydride (2.5 eq., 0.66 g, 2.3 mmol) was added dropwise over 20 mins and the reaction allowed to heat for a further 2h. Potassium fluoride (ca. 1.5 g) was added and the resulting suspension stirred vigorously for 16h. The suspension was filtered through celite and the filtrate concentrated in vacuo.
+The crude product was purified by flash column chromatography (20-50% Ether / Petroleum ether
+40-60 °C) to yield the product as a pale yellow, oil (257 mg, 0.77 mmol, 85%).

@@ -1,0 +1,3 @@
+This test is used to look for the disappearance of an aldehyde after a solid phase reductive amination or reduction.  
+2,4-Dinitrophenylhydrazine reagent: Dissolve 3 g of 2,4-Dinitrophenylhydrazine in 15 mL of conc. sulfuric acid. This solution is then added with stirring to 20 mL of water and 70 mL of 95% ethanol. This solution is mixed thoroughly and filtered. 
+A few beads of resin are swollen in a drop of DMF and a single drop of 2,4-DNP solution is added.  A positive result is orange-red.  

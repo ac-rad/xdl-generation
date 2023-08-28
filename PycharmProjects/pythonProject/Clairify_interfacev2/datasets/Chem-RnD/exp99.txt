@@ -1,0 +1,5 @@
+Aminomethyl polystyrene resin (10g, 17.6mmol, 1.76mmol/g, 1eq) was first washed with 20% piperidine/DMF solution (ca. 60mL) for 10 min to remove any carbamate.  Then washed thoroughly with DCM, DMF, Methanol 6 x 40mL each.  Coupling mixture prepared by adding 4-(4-Formyl-3-methoxy)phenoxybutyric acid (8.39g, 35.2mmol, 2eq) to DMF (ca. 15mL) and adding DIPEA(9.1g, 12.3mL, 70.4mmol, 4eq) to this.  Then added HATU (13.38g, 35.2mmol, 2eq)portionwise and allowed 15min for activation of carboxylic acid.  Add enough DMF to just swell the resin (ca. 30mL) and then add the coupling solution.  Shake overnight at room temperature.
+Wash resin as before and dry in vacuo.  
+Test for unreacted amine by addition of 2% ninhydrin solution in n-butanol to a few beads of washed resin.  Heat with heat gun carefully, positive test is purple.  Perform negative control on resin sample without amine functionality.
+If free amine remains, repeat coupling as above.
+Loading assessment/yield:  assume 100% loading if ninhydrin test is negative.  Loading analysis can be performed using Fmoc-hydrazine for an accurate answer - see later synthetic page for this.

@@ -1,0 +1,6 @@
+1. Coupling of Fmoc-Gly to resin
+Take about 50 mg of resin (eg. 0.8 mmol/g, 1 eq, 0.04 mmol) swell in 1 mL DCM.   Add Fmoc-glycine (5 eq, 60 mg) and DIPEA (10 eq, 70 uL) to DCM (1 mL).  Add DCC (42 mg, 5 eq) and stir for 10 min.  Add solution to resin and leave few hours to overnight.
+Wash resin with DMF, Methanol, DCM and dry in vacuo thoroughly.
+Fmoc removal:
+Accurately weigh out about 20 mg of dry resin and shake in 1.0 mL of 20% piperidine/DMF for 30 min.  Take 50 uL of solution and dilute to 1 mL with 20% piperidine/DMF.
+Obtain UV standard (background) using same 20% piperidine/DMF solution.  Obtain UV of Fmoc solution (1 mL in cell)  Read value at 300nm and obtain value in absorbency units, AUFS).  To calculate the "Fmoc number" (ie the loading in mmol/g of Fmoc glycine on the resin) take the value from the UV machine and multiply by 106.  Divide this value by (7800x50xmass of resin in mg).  For greater accuracy perform the test on a couple of samples and take an average.
