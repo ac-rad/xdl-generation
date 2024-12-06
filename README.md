@@ -24,3 +24,5 @@ To generate a XDL protocol from a natural language description of an experiment,
 `python3 xdlgenerator/nlp2xdl.py --input_dir /path/to/experiment/dir` 
 
 where `/path/to/experiment/dir` is a directory containing natural language experiments. Each experiment is assumed to be its own file in the dictory (e.g. expertiment1.txt, experiment2.txt). Running the script will automatically generate an output directory `/path/to/experiment/dir_output`. Each file in the new directory contains a XDL description.
+
+**Note: This repository contains the original code for the CLAIRify paper, which is incompatible with the current OpenAI API. Please check the [develop](https://github.com/ac-rad/xdl-generation/tree/develop) branch for the updated version.**
