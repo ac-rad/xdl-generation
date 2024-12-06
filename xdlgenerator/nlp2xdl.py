@@ -13,7 +13,7 @@ sys.path.append(root_dir)
 from verifier import verify
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
-
+client = openai.OpenAI(api_key=openai.api_key)
 
 def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n", constraints=""):
     """prompt.
@@ -29,16 +29,17 @@ def prompt(instructions, description, max_tokens, task="\nConvert to XDL:\n", co
     task :
         task
     """
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=description +constraints+ "\nConvert to XDL:\n" + instructions,
+    prompt=description + constraints + "\nConvert to XDL:\n" + instructions
+    response = client.chat.completions.create(
+        model='gpt-4o-2024-05-13',  # the model name of GPT which you use
+        messages=[{"role": "user", "content": prompt}],
         temperature=0,
         max_tokens=max_tokens,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0,
     )
-    return response["choices"][0]["text"]
+    return response.choices[0].message.content
 
 
 def generate_xdl(file_path, available_hardware=None, available_reagents=None):
@@ -63,6 +64,8 @@ def generate_xdl(file_path, available_hardware=None, available_reagents=None):
     if available_reagents!= None:
         reagents_str = ", ".join(available_reagents)[:-2]
         constraints += f"\nThe available Reagents are: {reagents_str}\n"
+
+    prev_output = ''
     for step in range(10):
         print(constraints+"\nConvert to XDL:\n" + instructions)
         try:
@@ -72,7 +75,14 @@ def generate_xdl(file_path, available_hardware=None, available_reagents=None):
         print("gpt3 output:::")
         print(gpt3_output)
         print("******")
-        gpt3_output = gpt3_output[gpt3_output.index("<XDL>"):]
+        if prev_output == gpt3_output:
+            break
+        prev_output = gpt3_output
+
+        if '<XDL>' in gpt3_output and '</XDL>' in gpt3_output:
+            gpt3_output = gpt3_output[gpt3_output.index("<XDL>"):gpt3_output.index("</XDL>")+len('</XDL>')]
+            prev_output = gpt3_output
+
         compile_correct = verify.verify_xdl(gpt3_output, available_hardware, available_reagents)
         errors[step] = {
             "errors": compile_correct,
@@ -145,24 +155,23 @@ def main():
                 continue
             if ".txt" not in filename:
                 continue
-            try:
-                correct_syntax, xdl, errors = generate_xdl(
-                    os.path.join(rootdir, filename), available_hardware, available_reagents
-                )
-                print(filename, correct_syntax)
-                with open(os.path.join(output_dir, filename), "w") as f:
-                    f.write(xdl)
-                with open(
-                    os.path.join(output_dir, filename.replace(
-                        ".txt", "_errors.json")),
-                    "w",
-                ) as f:
-                    json.dump(errors, f)
-                total_num += 1
-                num_correct += correct_syntax
-            except:
-                print(filename, "error")
-                continue
+
+
+            correct_syntax, xdl, errors = generate_xdl(
+                os.path.join(rootdir, filename), available_hardware, available_reagents
+            )
+            print(filename, correct_syntax)
+            with open(os.path.join(output_dir, filename), "w") as f:
+                f.write(xdl)
+            with open(
+                os.path.join(output_dir, filename.replace(
+                    ".txt", "_errors.json")),
+                "w",
+            ) as f:
+                json.dump(errors, f)
+            total_num += 1
+            num_correct += correct_syntax
+
     print(f"Total num correct:: {num_correct}")
     print(f"Total num:: {total_num}")
 

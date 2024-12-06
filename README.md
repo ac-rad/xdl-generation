@@ -8,6 +8,8 @@ This repository contains
 - Dataset (Chem-RnD and Chem-EDU)
 - CLAIRify web interface
 
+This branch supports OpenAI Python API library v1, contributed by [Kojiro Machi](https://github.com/mlmachi).
+
 ### Tutorial
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ac-rad/xdl-generation/blob/master/tutorial.ipynb)
 
